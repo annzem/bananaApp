@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Habits</title>
+</head>
+<body>
+<p th:inline="text">Your habits, <th:block th:text="${user.getUsername()}">[name]</th:block>:</p>
+
+<ul>
+    <li th:each="habit: ${user.getHabits()}">
+        <span th:text="${habit.title}" th:remove="tag">title</span>
+    </li>
+</ul>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>
