@@ -1,13 +1,27 @@
 package com.company.model;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "habit")
 public class Habit {
     public Habit(String title, User user) {
         this.user = user;
         this.title = title;
+        start = LocalDate.now();
+        created = OffsetDateTime.now();
     }
+
+//    public Habit(String title) {
+//        this.title = title;
+//        created = OffsetDateTime.now();
+//    }
 
     public Habit() {
     }
@@ -16,27 +30,81 @@ public class Habit {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @CreatedDate
+    private OffsetDateTime created;
+
+    private LocalDate start;
+
+    private Duration period; //1 time per period
+
+    @Column(nullable = false, unique = false)
     private String title;
 
-    public Long getId() {
-        return id;
+    @OneToMany(mappedBy = "habit")
+    private Set<Event> events = new HashSet<>();
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public OffsetDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public Duration getPeriod() {
+        return period;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String title() {
+    public void setCreated(OffsetDateTime created) {
+        this.created = created;
+    }
+
+    public void setStart(LocalDate start) {
+        this.start = start;
+    }
+
+    public void setPeriod(Duration period) {
+        this.period = period;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public long getUserId() {return user.getId();}
+
+    public Long getId() {
+        return id;
     }
 
+    public int countItemsPerDay(long period) {
+        int secPerDay = 86400;
+        int items = (int) period / secPerDay;
+        return items;
+    }
 }

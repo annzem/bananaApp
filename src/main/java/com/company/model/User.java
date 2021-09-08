@@ -1,13 +1,12 @@
 package com.company.model;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.OffsetDateTime;
+import java.util.*;
 
 @Entity(name = "bananauser")
 public class User {
@@ -18,6 +17,7 @@ public class User {
         String encodedPassword = passwordEncoder.encode(password);
         this.username = username;
         this.password = encodedPassword;
+        this.created = OffsetDateTime.now();
     }
 
     public User() {
@@ -32,15 +32,18 @@ public class User {
 
     private String password;
 
+    @CreatedDate
+    private OffsetDateTime created;
+
+
     @OneToMany(mappedBy = "user")
     private Set<Habit> habits = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<HabitGroup> habitGroups = new HashSet<>();
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <script>
+        $.get("/get_habits", function (habits) {
+            renderHabits(habits);
+        });
+
+        function renderHabits(habits) {
+            let str = "";
+            if (habits.length > 0) {
+                str = "<ul>";
+                for (let i = 0; i < habits.length; i++) {
+                    str = str + "<li>" + habits[i].title + "</li>";
+                }
+                str = str + "</ul>"
+            } else {str = "<p>You don't have any habits</p>"}
+            $("#items").html(str);
+        }
+
+    </script>
+</head>
+<body>
+<p th:inline="text">Your habits,
+    <th:block th:text="${user.getUsername()}">[name]</th:block>
+    :
+</p>
+<p id="items"></p>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<a th:href="@{/new_habit_page}">Add new habit</a>
+</body>
+</html>

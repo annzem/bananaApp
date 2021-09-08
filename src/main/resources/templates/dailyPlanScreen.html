@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        div.icon {
+            width: 170px;
+            height: 300px;
+            background-repeat: no-repeat;
+            background-size: 150px;
+            display: inline-block;
+        }
+
+        div.snail_enabled {
+            background-image: url("../icons/11.jpg");
+        }
+
+        div.snail_disabled {
+            background-image: url("../icons/22.jpg");
+        }
+
+        div.goose_enabled {
+            background-image: url("../icons/1.png");
+        }
+
+        div.goose_disabled {
+            background-image: url("../icons/2.png");
+        }
+    </style>
+
+</head>
+
+<body>
+<p id="items"></p>
+<div id="img1" class="icon snail_disabled">
+</div>
+<div id="img2" class="icon snail_disabled">
+</div>
+<br>
+<div id="img3" class="icon goose_disabled">
+</div>
+
+<script>
+    let img1;
+    let enabled = false;
+    $(() => {
+        img1 = $("#img1");
+
+        img1.click(() => {
+            enabled = !enabled;
+            if (!enabled) {
+                img1.removeClass("snail_enabled");
+                img1.addClass("snail_disabled");
+            } else {
+                img1.addClass("snail_enabled");
+                img1.removeClass("snail_disabled");
+            }
+            $.ajax({
+                type: "POST",
+                url: "/updateHabitItems",
+
+            })
+        })
+    });
+
+    function processEvent() {
+
+    }
+
+    function renderHabitItems(habits) {
+        let str = "";
+        for (let i = 0; i < habits.length; i++) {
+            for (let j = 0; j < habits[i].countItemsPerDay; j++) {
+                str = str + "<div id = \"" + habits[i].title + j + "\"" + " class=\"icon " + habits[i].title + "_disabled\"></div>"
+            }
+            str = str + "<br>";
+        }
+        $("#items").html(str);
+    }
+
+</script>
+</body>
+</html>
