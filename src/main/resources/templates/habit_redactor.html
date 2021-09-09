@@ -32,10 +32,12 @@
 </p>
 <p id="items"></p>
 
+<a th:href="@{/new_habit_page}">Add new habit</a>
+<br>
+<br>
+
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
-
-<a th:href="@{/new_habit_page}">Add new habit</a>
 </body>
 </html>

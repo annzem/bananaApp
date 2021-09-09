@@ -1,6 +1,9 @@
 package com.company.model;
 
+import com.company.Utils;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -9,23 +12,20 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity(name = "habit")
 public class Habit {
+
+    public Habit() {
+        //this.user = Utils.getCurrentUser();
+    }
+
     public Habit(String title, User user) {
         this.user = user;
         this.title = title;
-        start = LocalDate.now();
-        created = OffsetDateTime.now();
     }
 
-//    public Habit(String title) {
-//        this.title = title;
-//        created = OffsetDateTime.now();
-//    }
-
-    public Habit() {
-    }
-
+    @CreatedBy
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
@@ -74,10 +74,6 @@ public class Habit {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setCreated(OffsetDateTime created) {
-        this.created = created;
     }
 
     public void setStart(LocalDate start) {

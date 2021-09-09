@@ -1,7 +1,5 @@
 package com.company.dto;
 
-import com.company.Utils;
-import com.company.model.Habit;
 import com.company.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +8,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 public class HabitDto {
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start;
     private String title;

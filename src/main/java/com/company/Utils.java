@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class Utils {
     private static UserRepository userRepository;
@@ -18,11 +20,14 @@ public class Utils {
         this.userRepository = userRepository;
     }
 
-    public static User getCurrentUser() {
+    public static Optional<User> getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return Optional.empty();
+        }
         MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
         User user = userRepository.findById(principal.getUser().getId()).get();
-        return user;
+        return Optional.of(user);
     }
 }

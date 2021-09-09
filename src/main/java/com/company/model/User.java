@@ -1,6 +1,7 @@
 package com.company.model;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.*;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity(name = "bananauser")
 public class User {
 
@@ -17,7 +19,6 @@ public class User {
         String encodedPassword = passwordEncoder.encode(password);
         this.username = username;
         this.password = encodedPassword;
-        this.created = OffsetDateTime.now();
     }
 
     public User() {
@@ -34,7 +35,6 @@ public class User {
 
     @CreatedDate
     private OffsetDateTime created;
-
 
     @OneToMany(mappedBy = "user")
     private Set<Habit> habits = new HashSet<>();
