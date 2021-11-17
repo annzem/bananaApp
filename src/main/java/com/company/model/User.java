@@ -28,7 +28,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String username;
 
     private String password;
@@ -38,9 +38,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Habit> habits = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<HabitGroup> habitGroups = new HashSet<>();
 
     public Long getId() {
         return id;

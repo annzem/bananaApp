@@ -21,6 +21,53 @@ public class Icon {
     @CreatedDate
     private OffsetDateTime created;
 
+    @Lob
+    byte[] content;
+
     private String enabledFilename;
     private String disabledFilename;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public OffsetDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(OffsetDateTime created) {
+        this.created = created;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
+
+    public String getEnabledFilename() {
+        return enabledFilename;
+    }
+
+    public void setEnabledFilename(String enabledFilename) {
+        this.enabledFilename = enabledFilename;
+    }
+
+    public String getDisabledFilename() {
+        return disabledFilename;
+    }
+
+    public void setDisabledFilename(String disabledFilename) {
+        this.disabledFilename = disabledFilename;
+    }
 }

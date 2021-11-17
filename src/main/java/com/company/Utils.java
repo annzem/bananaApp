@@ -26,8 +26,12 @@ public class Utils {
         if (authentication == null || !authentication.isAuthenticated()) {
             return Optional.empty();
         }
-        MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
-        User user = userRepository.findById(principal.getUser().getId()).get();
-        return Optional.of(user);
+        if (authentication.getPrincipal() instanceof MyUserPrincipal) {
+            MyUserPrincipal principal = (MyUserPrincipal) authentication.getPrincipal();
+            User user = userRepository.findById(principal.getUser().getId()).get();
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
     }
 }

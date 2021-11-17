@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1 th:inline="text">
+    Edit user: </h1>
+<form action="#" th:action="@{/user_editor}" th:object="${userEditorDto}" method="post">
+    <p>Name: <input type="text" th:field="*{username}"/></p>
+    <p><input type="submit" value="Change username"/>
+</form>
+
+
+
+
+<form action="#" th:action="@{/user_editor}" th:object="${userEditorDto}" method="post">
+    <p>Current password: <input type="text" name="password" th:field="*{currentPassword}"/></p>
+    <p>New password: <input type="text" name="password1" th:field="*{newPassword}"/></p>
+    <p>Repeat new password: <input type="text" name="password2" th:field="*{repeatNewPassword}"/></p>
+    <p><input type="submit" value="Change password"/>
+
+</form>
+
+</body>
+</html>

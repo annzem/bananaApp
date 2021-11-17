@@ -23,6 +23,7 @@ public class Habit {
     public Habit(String title, User user) {
         this.user = user;
         this.title = title;
+        start = LocalDate.now();
     }
 
     @CreatedBy
@@ -42,6 +43,8 @@ public class Habit {
 
     private Duration period; //1 time per period
 
+    private Integer perDay;
+
     @Column(nullable = false, unique = false)
     private String title;
 
@@ -54,6 +57,10 @@ public class Habit {
 
     public Set<Event> getEvents() {
         return events;
+    }
+
+    public Integer getPerDay() {
+        return perDay;
     }
 
     public OffsetDateTime getCreated() {

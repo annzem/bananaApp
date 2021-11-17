@@ -1,21 +1,47 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Habits</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+    <meta charset="UTF-8">
+
 </head>
+
 <body>
-<p th:inline="text">Your habits, <th:block th:text="${user.getUsername()}">[name]</th:block>:</p>
+<p th:inline="text">Your habits,
+    <th:block th:text="${user.getUsername()}">[name]</th:block>
+    :
+</p>
+<p id="habits"></p>
+<script>
+    function renderHabits() {
+        $.getJSON('http://localhost:8080/get_habits', function (data) {
 
-<ul>
-    <li th:each="habit: ${user.getHabits()}">
-        <span th:text="${habit.title}" th:remove="tag">title</span>
-    </li>
-</ul>
+            let template = $("#habits_template").html();
+            let text = Mustache.render(template, {"habits" : data});
 
-<a href="/habit_redactor">edit habits</a>
+            $("#habits").html(text);
+        })
+    }
+
+    $(function() {
+        renderHabits();
+    });
+</script>
+
+<script id="habits_template" type="text/template">
+    {{#habits}}
+    <ul>
+        <li>{{title}} <a href="/habit_editor/{{id}}">edit</a> </li>
+    </ul>
+    {{/habits}}
+</script>
+
+<a th:href="@{/new_habit_page}">Add new habit</a>
 <br>
 <br>
+
+<a th:href="@{/user_editor}">edit profile</a>
 
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
