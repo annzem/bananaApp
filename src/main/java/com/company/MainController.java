@@ -113,6 +113,22 @@ public class MainController {
         return "habits";
     }
 
+    @GetMapping("/delete_habit/{id}")
+    public String deleteHabit(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
+        model.addAttribute("user", auditorAware.getCurrentAuditor().get());
+        Habit habit = habitRepository.getById(Long.valueOf(id));
+        model.addAttribute("habit", habit);
+        return "delete_habit";
+    }
+
+    @PostMapping("/delete_habit/{id}")
+    public String deleteHabitConf(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
+        model.addAttribute("user", auditorAware.getCurrentAuditor().get());
+        Habit habit = habitRepository.getById(Long.valueOf(id));
+        habitRepository.delete(habit);
+        return "habits";
+    }
+
     @GetMapping("/user_editor")
     public String userRedactorForm(Model model) {
         UserEditorDto userEditorDto = convertUserToUserEditorDto(auditorAware.getCurrentAuditor().get());
@@ -145,6 +161,7 @@ public class MainController {
         userEditorDto.setCurrentPassword("");
         return userEditorDto;
     }
+
 
 }
 

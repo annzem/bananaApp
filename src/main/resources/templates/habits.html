@@ -32,7 +32,7 @@
 <script id="habits_template" type="text/template">
     {{#habits}}
     <ul>
-        <li>{{title}} <a href="/habit_editor/{{id}}">edit</a> </li>
+        <li>{{title}} <a href="/habit_editor/{{id}}">edit</a> <a th:href="@{/delete_habit/{{id}}}">delete</a></li>
     </ul>
     {{/habits}}
 </script>

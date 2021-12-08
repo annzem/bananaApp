@@ -1,16 +1,18 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <h1 th:inline="text">
-    Edit habit: "<th:block th:text="${habit.getTitle()}">[title]</th:block>"
+    Edit habit: "
+    <th:block th:text="${habit.getTitle()}">[title]</th:block>
+    "
 </h1>
 <form action="#" th:action="@{'/habit_editor/' + ${id}}" th:object="${habit}" method="post">
-    <p>Title: <input name="title" type="text" th:value="${habit.getTitle()}" /></p>
-    <p>Start date: <input type="date" name = "start" th:value="${habit.getStart()}" /></p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    <p>Title: <input name="title" type="text" th:value="${habit.getTitle()}"/></p>
+    <p>Start date: <input type="date" name="start" th:value="${habit.getStart()}"/></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
 </form>
 </body>
 </html>
