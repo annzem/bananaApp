@@ -15,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
@@ -56,12 +53,6 @@ public class MainController {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
         return "habits";
     }
-
-//    @GetMapping("/habit_redactor")
-//    public String habit_redactor(Model model) {
-//        model.addAttribute("user", auditorAware.getCurrentAuditor().get());
-//        return "habit_redactor";
-//    }
 
     @GetMapping("/get_habits")
     public ResponseEntity<List<Habit>> getHabits() {
@@ -113,20 +104,15 @@ public class MainController {
         return "habits";
     }
 
-    @GetMapping("/delete_habit/{id}")
-    public String deleteHabit(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
-        model.addAttribute("user", auditorAware.getCurrentAuditor().get());
-        Habit habit = habitRepository.getById(Long.valueOf(id));
-        model.addAttribute("habit", habit);
-        return "delete_habit";
-    }
 
-    @PostMapping("/delete_habit/{id}")
-    public String deleteHabitConf(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
+
+
+    @GetMapping("/delete_habit/{id}")
+    public void deleteHabit(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
         Habit habit = habitRepository.getById(Long.valueOf(id));
         habitRepository.delete(habit);
-        return "habits";
+        // return "habits";
     }
 
     @GetMapping("/user_editor")

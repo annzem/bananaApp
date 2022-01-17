@@ -24,6 +24,23 @@
         })
     }
 
+    function windowConfirmDel(id) {
+        $.getJSON('http://localhost:8080/delete_habit/' + id, function (data) {
+
+            let template = $("#habits_template").html();
+            let text = Mustache.render(template, {"habits" : data});
+
+            $("#habits").html(text);
+        })
+
+        if (window.confirm("Do you want to delete this habit?")) {
+            let a =  '/delete_habit/' + id;
+            $.get(a);
+
+            //window.open("/habits")
+        }
+    }
+
     $(function() {
         renderHabits();
     });
@@ -32,7 +49,7 @@
 <script id="habits_template" type="text/template">
     {{#habits}}
     <ul>
-        <li>{{title}} <a href="/habit_editor/{{id}}">edit</a> <a th:href="@{/delete_habit/{{id}}}">delete</a></li>
+        <li>{{title}} <a href="/habit_editor/{{id}}">edit</a> <button onclick='windowConfirmDel("{{id}}")'>delete</button></li>
     </ul>
     {{/habits}}
 </script>
