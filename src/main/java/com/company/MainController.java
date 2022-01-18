@@ -73,12 +73,12 @@ public class MainController {
     }
 
     @PostMapping("/new_habit_page")
-    public String newHabitResult(@ModelAttribute HabitDto habitDto, Model model) {
+    public RedirectView newHabitResult(@ModelAttribute HabitDto habitDto, Model model) {
         model.addAttribute("habitDto", habitDto);
         Habit habit = modelMapper.map(habitDto, Habit.class);
         habitRepository.saveAndFlush(habit);
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
-        return "habits";
+        return new RedirectView("/habits");
     }
 
     @GetMapping("/habit_editor/{id}")
@@ -107,12 +107,12 @@ public class MainController {
 
 
 
-    @GetMapping("/delete_habit/{id}")
-    public void deleteHabit(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
+    @PostMapping("/delete_habit/{id}")
+    public ResponseEntity<String> deleteHabit(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
         Habit habit = habitRepository.getById(Long.valueOf(id));
         habitRepository.delete(habit);
-        // return "habits";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user_editor")
