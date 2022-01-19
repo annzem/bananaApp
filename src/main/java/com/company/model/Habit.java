@@ -21,10 +21,11 @@ public class Habit {
         //this.user = Utils.getCurrentUser();
     }
 
-    public Habit(String title, User user) {
+    public Habit(String title, User user, Integer per_day) {
         this.user = user;
         this.title = title;
         start = LocalDate.now();
+        perDay = per_day;
     }
 
     @CreatedBy
@@ -42,7 +43,7 @@ public class Habit {
 
     private LocalDate start;
 
-    private Duration period; //1 time per period
+//    private Duration period; //1 time per period
 
     private Integer perDay;
 
@@ -72,9 +73,9 @@ public class Habit {
         return start;
     }
 
-    public Duration getPeriod() {
-        return period;
-    }
+//    public Duration getPeriod() {
+//        return period;
+//    }
 
     public void setUser(User user) {
         this.user = user;
@@ -83,14 +84,15 @@ public class Habit {
     public void setId(Long id) {
         this.id = id;
     }
+    public void setPerDay(Integer perDay) {
+        this.perDay = perDay;
+    }
 
     public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public void setPeriod(Duration period) {
-        this.period = period;
-    }
+//
 
     public void setEvents(Set<Event> events) {
         this.events = events;

@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-
 </head>
 
 <body>
@@ -45,7 +43,7 @@
 <script id="habits_template" type="text/template">
     {{#habits}}
     <ul>
-        <li>{{title}} <a href="/habit_editor/{{id}}">edit</a> <button onclick='windowConfirmDel("{{id}}")'>delete</button></li>
+        <li>{{title}}<label> (</label>{{perDay}}<label> times per day)</label> <a href="/habit_editor/{{id}}">edit</a> <button onclick='windowConfirmDel("{{id}}")'>delete</button></li>
     </ul>
     {{/habits}}
 </script>

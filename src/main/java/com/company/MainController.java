@@ -90,22 +90,18 @@ public class MainController {
     }
 
     @PostMapping("/habit_editor/{id}")
-    public String habitEditorRes(@ModelAttribute HabitDto habitDto, Model model, @PathVariable String id) {
+    public RedirectView habitEditorRes(@ModelAttribute HabitDto habitDto, Model model, @PathVariable String id) {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
         Habit habit = habitRepository.getById(Long.valueOf(id));
         model.addAttribute("habit", habit);
         model.addAttribute("habitDto", habitDto);
-        model.addAttribute("user", auditorAware.getCurrentAuditor().get());
         Habit habit2 = modelMapper.map(habitDto, Habit.class);
         habit.setTitle(habit2.getTitle());
         habit.setStart(habit2.getStart());
+        habit.setPerDay(habit2.getPerDay());
         habitRepository.saveAndFlush(habit);
-
-        return "habits";
+        return new RedirectView("/habits");
     }
-
-
-
 
     @PostMapping("/delete_habit/{id}")
     public ResponseEntity<String> deleteHabit(@ModelAttribute HabitDto habitDto, @PathVariable String id, Model model) {

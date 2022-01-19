@@ -10,7 +10,8 @@
     "
 </h1>
 <form action="#" th:action="@{'/habit_editor/' + ${id}}" th:object="${habit}" method="post">
-    <p>Title: <input name="title" type="text" th:value="${habit.getTitle()}"/></p>
+    <p>Title: <input name="title" type="text" required="required" th:value="${habit.getTitle()}"/></p>
+    <p>Times per day: <input name="perDay" type="number" min="0" max="8" th:value="${habit.getPerDay()}" /></p>
     <p>Start date: <input type="date" name="start" th:value="${habit.getStart()}"/></p>
     <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
 </form>

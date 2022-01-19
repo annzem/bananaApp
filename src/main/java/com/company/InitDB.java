@@ -29,9 +29,9 @@ public class InitDB {
         User rosa = userRepository.findByUsername("Rosa");
 
         if (habitRepository.findAll().size() == 0) {
-            Habit habit1 = new Habit("goose", arnold);
-            Habit habit2 = new Habit("snail", rosa);
-            Habit habit3 = new Habit("snail", arnold);
+            Habit habit1 = new Habit("goose", arnold, 3);
+            Habit habit2 = new Habit("snail", rosa, 2);
+            Habit habit3 = new Habit("snail", arnold, 4);
             habitRepository.saveAndFlush(habit1);
             habitRepository.saveAndFlush(habit2);
             habitRepository.saveAndFlush(habit3);
