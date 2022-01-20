@@ -5,4 +5,5 @@ import com.company.model.Icon;
 
 
 public interface IconRepository extends JpaRepository<Icon, Long> {
+    Icon findByTitle(String title);
 }

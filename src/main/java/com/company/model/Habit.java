@@ -1,13 +1,10 @@
 package com.company.model;
 
-import com.company.Utils;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -21,9 +18,10 @@ public class Habit {
         //this.user = Utils.getCurrentUser();
     }
 
-    public Habit(String title, User user, Integer per_day) {
+    public Habit(String title, User user, Integer per_day, Icon icon) {
         this.user = user;
         this.title = title;
+        this.icon = icon;
         start = LocalDate.now();
         perDay = per_day;
     }
@@ -32,7 +30,6 @@ public class Habit {
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,9 +40,12 @@ public class Habit {
 
     private LocalDate start;
 
-//    private Duration period; //1 time per period
+//    private Duration period; 1 time per period
 
     private Integer perDay;
+
+    @ManyToOne
+    private Icon icon;
 
     @Column(nullable = false, unique = false)
     private String title;
@@ -91,8 +91,6 @@ public class Habit {
     public void setStart(LocalDate start) {
         this.start = start;
     }
-
-//
 
     public void setEvents(Set<Event> events) {
         this.events = events;

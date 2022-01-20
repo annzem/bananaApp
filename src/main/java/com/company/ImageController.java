@@ -22,8 +22,7 @@ class ImageController {
         dbImage.setName(multipartImage.getName());
         dbImage.setContent(multipartImage.getBytes());
 
-        return imageRepository.save(dbImage)
-                .getId();
+        return imageRepository.save(dbImage).getId();
     }
 
     @GetMapping(value = "/image/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
