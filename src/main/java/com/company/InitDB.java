@@ -39,9 +39,9 @@ public class InitDB {
         Icon snailTitle = iconRepository.findByTitle("snail");
 
         if (habitRepository.findAll().size() == 0) {
-            Habit habit1 = new Habit("goose", arnold, 3, gooseTitle);
-            Habit habit2 = new Habit("snail", rosa, 2, snailTitle);
-            Habit habit3 = new Habit("snail", arnold, 4, snailTitle);
+            Habit habit1 = new Habit("goose", arnold, 3, "goose");
+            Habit habit2 = new Habit("snail", rosa, 2, "snail");
+            Habit habit3 = new Habit("snail", arnold, 4, "snail");
             habitRepository.saveAndFlush(habit1);
             habitRepository.saveAndFlush(habit2);
             habitRepository.saveAndFlush(habit3);

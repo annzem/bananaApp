@@ -1,0 +1,23 @@
+div.icon {
+    width: 80px;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-size: 70px;
+    display: inline-block;
+}
+
+div.snail.enabled {
+    background-image: url("/static/icons/snail_e.jpg");
+}
+
+div.snail.disabled {
+    background-image: url("/static/icons/snail.jpg");
+}
+
+div.goose.enabled {
+    background-image: url("/static/icons/goose_e.png");
+}
+
+div.goose.disabled {
+    background-image: url("/static/icons/goose.png");
+}

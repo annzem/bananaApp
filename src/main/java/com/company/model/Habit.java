@@ -18,7 +18,7 @@ public class Habit {
         //this.user = Utils.getCurrentUser();
     }
 
-    public Habit(String title, User user, Integer per_day, Icon icon) {
+    public Habit(String title, User user, Integer per_day, String icon) {
         this.user = user;
         this.title = title;
         this.icon = icon;
@@ -44,8 +44,7 @@ public class Habit {
 
     private Integer perDay;
 
-    @ManyToOne
-    private Icon icon;
+    private String icon;
 
     @Column(nullable = false, unique = false)
     private String title;
@@ -105,6 +104,10 @@ public class Habit {
     public Long getId() {
         return id;
     }
+
+    public String getIcon() { return icon; }
+
+    public void setIcon(String icon) { this.icon = icon; }
 
     public int countItemsPerDay(long period) {
         int secPerDay = 86400;

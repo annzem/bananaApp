@@ -13,6 +13,7 @@ public class HabitDto {
     private LocalDate start;
     private String title;
     private int perDay;
+    private String icon;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,4 +38,8 @@ public class HabitDto {
     public int getPerDay() { return perDay; }
 
     public void setPerDay(int perDay) { this.perDay = perDay; }
+
+    public String getIcon() { return icon; }
+
+    public void setIcon(String icon) { this.icon = icon; }
 }

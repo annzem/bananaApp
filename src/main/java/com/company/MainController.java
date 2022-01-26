@@ -65,6 +65,7 @@ public class MainController {
         return "dailyPlanScreen";
     }
 
+
     @GetMapping("/new_habit_page")
     public String newHabitForm(Model model) {
         model.addAttribute("habitDto", new HabitDto());
@@ -114,8 +115,6 @@ public class MainController {
     @GetMapping("/user_editor")
     public String userRedactorForm(Model model) {
         UserEditorDto userEditorDto = convertUserToUserEditorDto(auditorAware.getCurrentAuditor().get());
-
-
         model.addAttribute("userEditorDto", userEditorDto);
         return "user_editor";
     }
@@ -127,7 +126,6 @@ public class MainController {
     public RedirectView userRedactorRes(@ModelAttribute UserDto userDto, Model model) {
         User currentUser = auditorAware.getCurrentAuditor().get();
         currentUser.setUsername(userDto.getUsername());
-
         userRepository.saveAndFlush(currentUser);
         return new RedirectView("/habits");
     }

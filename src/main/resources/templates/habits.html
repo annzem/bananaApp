@@ -7,6 +7,14 @@
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        div.icon {
+            width: 40px;
+            height: 60px;
+            background-size: 30px;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,9 +50,12 @@
 
 <script id="habits_template" type="text/template">
     {{#habits}}
-    <ul>
-        <li>{{title}}<label> (</label>{{perDay}}<label> times per day)</label> <a href="/habit_editor/{{id}}">edit</a> <button onclick='windowConfirmDel("{{id}}")'>delete</button></li>
-    </ul>
+    <dl>
+        <dt><div id="img1" class="icon {{icon}}_enabled"> </div>
+        {{title}}<label> (</label>{{perDay}}<label> times per day)</label>
+            <a href="/habit_editor/{{id}}">edit</a>
+            <button onclick='windowConfirmDel("{{id}}")'>delete</button></dt>
+    </dl>
     {{/habits}}
 </script>
 
@@ -57,5 +68,7 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+
+</div>
 </body>
 </html>

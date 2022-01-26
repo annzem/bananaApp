@@ -11,7 +11,7 @@ public class Icon {
     public Icon() {
     }
 
-    public Icon(String title, byte [] content, String enabledFilename, String disabledFilename) {
+    public Icon(String title, byte[] content, String enabledFilename, String disabledFilename) {
         this.title = title;
         this.content = content;
         this.enabledFilename = enabledFilename;
