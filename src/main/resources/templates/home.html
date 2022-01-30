@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>localhost</title>
-</head>
+    <div th:replace="fragments/libs :: libs"></div>
+    </head>
 <body>
+<div th:replace="fragments/header :: header">...</div>
 <p th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!</p>
 <p>Click <a th:href="@{/habits}">here</a> to see your habits</p>
 <p>Click <a th:href="@{/today}">here</a> to see your plan for today</p>

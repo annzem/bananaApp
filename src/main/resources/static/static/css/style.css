@@ -1,9 +1,20 @@
+body {
+    padding-top: 65px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+}
+
+span, label {
+    font-weight: normal;
+}
+
 div.icon {
     width: 80px;
     height: 120px;
     background-repeat: no-repeat;
     background-size: 70px;
     display: inline-block;
+    vertical-align: middle;
 }
 
 div.snail.enabled {
@@ -20,4 +31,28 @@ div.goose.enabled {
 
 div.goose.disabled {
     background-image: url("/static/icons/goose.png");
+}
+
+.btn-link-signout {
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    color: #337ab7;
+    font-family: inherit;
+    font-size: inherit;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.btn-link-signout:hover {
+    text-decoration: none;
+    background-color: #eee;
+    color: #23527c;
+}
+
+.nav-item:hover {
+    text-decoration: none;
+    color: red;
+    background-color: inherit !important;
 }

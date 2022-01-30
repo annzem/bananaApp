@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
-    <meta charset="UTF-8">
-
+    <div th:replace="fragments/libs :: libs"></div>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" href="/static/css/style.css">
+
     <style>
         div.icon {
             width: 40px;
@@ -18,6 +15,7 @@
 </head>
 
 <body>
+<div th:replace="fragments/header :: header">...</div>
 <p th:inline="text">Your habits,
     <th:block th:text="${user.getUsername()}">[name]</th:block>
     :
@@ -28,7 +26,8 @@
         $.getJSON('http://localhost:8080/get_habits', function (data) {
 
             let template = $("#habits_template").html();
-            let text = Mustache.render(template, {"habits" : data});
+            let compiledTemplate = Handlebars.compile(template);
+            let text = compiledTemplate({"habits": data});
 
             $("#habits").html(text);
         })
@@ -36,14 +35,14 @@
 
     function windowConfirmDel(id) {
         if (window.confirm("Do you want to delete this habit?")) {
-            let a =  '/delete_habit/' + id;
+            let a = '/delete_habit/' + id;
             let token = $("meta[name='_csrf']").attr("content");
             let header = $("meta[name='_csrf_header']").attr("content");
             $.post(a, {_csrf: token}).done(renderHabits);
         }
     }
 
-    $(function() {
+    $(function () {
         renderHabits();
     });
 </script>
@@ -51,10 +50,15 @@
 <script id="habits_template" type="text/template">
     {{#habits}}
     <dl>
-        <dt><div id="img1" class="icon {{icon}}_enabled"> </div>
-        {{title}}<label> (</label>{{perDay}}<label> times per day)</label>
+        <dt>
+            <div id="img1" class="icon {{icon}} enabled"></div>
+            <span>
+            {{title}} <label>(</label>{{perDay}} <label>times per day)</label>
             <a href="/habit_editor/{{id}}">edit</a>
-            <button onclick='windowConfirmDel("{{id}}")'>delete</button></dt>
+
+            <a href = "javascript:windowConfirmDel('{{id}}')">delete</a>
+                </span>
+        </dt>
     </dl>
     {{/habits}}
 </script>
@@ -63,11 +67,9 @@
 <br>
 <br>
 
-<a th:href="@{/user_editor}">edit profile</a>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
 
 </div>
 </body>

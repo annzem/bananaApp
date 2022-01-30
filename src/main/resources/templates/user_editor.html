@@ -2,8 +2,10 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/libs :: libs"></div>
 </head>
 <body>
+<div th:replace="fragments/header :: header">...</div>
 <h1 th:inline="text">
     Edit user: </h1>
 <form action="#" th:action="@{/user_editor}" th:object="${userEditorDto}" method="post">

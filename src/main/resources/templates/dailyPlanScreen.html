@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <div th:replace="fragments/libs :: libs"></div>
     <script src="/static/js/script.js"></script>
-    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+<div th:replace="fragments/header :: header">...</div>
+
 <p id="dPS"></p>
 
 <form th:action="@{/logout}" method="post">
@@ -15,14 +14,13 @@
 </form>
 
 <script>
-
     function renderHabitItems() {
         $.getJSON('http://localhost:8080/get_habits', function (data) {
             let template = $("#items").html();
             let compiledTemplate = Handlebars.compile(template);
             let text = compiledTemplate({"habits": data});
             $("#dPS").html(text);
-            $(".icon").click(function (event){
+            $(".icon").click(function (event) {
                 if ($(event.currentTarget).hasClass("enabled")) {
                     $(event.currentTarget).removeClass("enabled");
                     $(event.currentTarget).addClass("disabled");
@@ -37,8 +35,6 @@
     $(function () {
         renderHabitItems();
     });
-
-
 
 </script>
 
