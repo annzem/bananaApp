@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/libs :: libs"></div>
     </head>
@@ -8,12 +8,6 @@
 <p th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!</p>
 <p>Click <a th:href="@{/habits}">here</a> to see your habits</p>
 <p>Click <a th:href="@{/today}">here</a> to see your plan for today</p>
-
-<a th:href="@{/user_editor}">edit profile</a>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
 
 </body>
 </html>

@@ -13,9 +13,6 @@
     <p><input type="submit" value="Change username"/>
 </form>
 
-
-
-
 <form action="#" th:action="@{/user_editor}" th:object="${userEditorDto}" method="post">
     <p>Current password: <input type="text" name="password" th:field="*{currentPassword}"/></p>
     <p>New password: <input type="text" name="password1" th:field="*{newPassword}"/></p>

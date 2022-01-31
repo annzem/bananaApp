@@ -100,6 +100,7 @@ public class MainController {
         habit.setTitle(habit2.getTitle());
         habit.setStart(habit2.getStart());
         habit.setPerDay(habit2.getPerDay());
+        habit.setIcon(habit2.getIcon());
         habitRepository.saveAndFlush(habit);
         return new RedirectView("/habits");
     }

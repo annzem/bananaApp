@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <div th:replace="fragments/libs :: libs"></div>
 </head>
+
 <body>
 <div th:replace="fragments/header :: header">...</div>
 <h1>New habit</h1>
@@ -11,6 +12,24 @@
     <p>Title: <input type="text" required="required" th:field="*{title}" /></p>
     <p>Times per day: <input type="number" min="0" max="8" th:field="*{perDay}" /></p>
     <p>Start date: <input type="date" name = "start" th:value="${localDate}" /></p>
+    <p>Choose icon:</p>
+
+        <div class="box">
+                <label class="custom-radio-button__container">
+                    <input type="radio" name="icon" value="snail" required>
+                    <span class="custom-radio-button">
+                    <img src="/static/icons/snail_e.jpg" width="50">
+                    </span>
+                </label>
+
+                <label class="custom-radio-button__container">
+                    <input type="radio" name="icon" value="goose">
+                    <span class="custom-radio-button">
+                    <img src="/static/icons/goose_e.png" width="50">
+                    </span>
+                </label>
+        </div>
+
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 </body>
