@@ -2,12 +2,15 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/libs :: libs"></div>
-    </head>
+</head>
 <body>
 <div th:replace="fragments/header :: header">...</div>
-<p th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!</p>
-<p>Click <a th:href="@{/habits}">here</a> to see your habits</p>
-<p>Click <a th:href="@{/today}">here</a> to see your plan for today</p>
+<p class="home" th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!
+    <br> Are you ready to tick some points of your habits or create a new one?
+    <br> <br> <input type="button" class = "button-1" onclick="location.href='/today';" value="tick points!"/>
+    <input type="button" class = "button-1" onclick="location.href='/new_habit_page';" value="add new habit!"/> </p>
+<img class="home" src="/static/icons/icons.svg" width="200">
+
 
 </body>
 </html>

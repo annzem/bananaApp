@@ -1,21 +1,25 @@
 package com.company;
 
+import com.company.model.Event;
 import com.company.model.Habit;
-import com.company.model.Icon;
 import com.company.model.User;
+import com.company.model.repository.EventRepository;
 import com.company.model.repository.HabitRepository;
-import com.company.model.repository.IconRepository;
 import com.company.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Component
 public class InitDB {
 
     @Autowired
-    public InitDB(UserRepository userRepository, HabitRepository habitRepository, IconRepository iconRepository) {
+    public InitDB(UserRepository userRepository, HabitRepository habitRepository, EventRepository eventRepository) {
+        eventRepository.deleteAll();
         habitRepository.deleteAll();
         userRepository.deleteAll();
+
 
         if (userRepository.findAll().size() == 0) {
             User user1 = new User("Arnold", "pass1");
@@ -30,21 +34,21 @@ public class InitDB {
         User vasya = userRepository.findByUsername("Vasya");
         User rosa = userRepository.findByUsername("Rosa");
 
-        if (iconRepository.findAll().size() == 0) {
-            Icon icon1 = new Icon();
-            Icon icon2 = new Icon(   );
-        }
-
-        Icon gooseTitle = iconRepository.findByTitle("goose");
-        Icon snailTitle = iconRepository.findByTitle("snail");
+        Habit habit1 = null, habit2 = null, habit3 = null;
 
         if (habitRepository.findAll().size() == 0) {
-            Habit habit1 = new Habit("goose", arnold, 3, "goose");
-            Habit habit2 = new Habit("snail", rosa, 2, "snail");
-            Habit habit3 = new Habit("snail", arnold, 4, "snail");
-            habitRepository.saveAndFlush(habit1);
-            habitRepository.saveAndFlush(habit2);
-            habitRepository.saveAndFlush(habit3);
+            habit1 = new Habit("goose", arnold, 3, "goose");
+            habit2 = new Habit("snail", rosa, 5, "snail");
+            habit3 = new Habit("snail", arnold, 6, "snail");
+            habitRepository.saveAllAndFlush(Arrays.asList(habit1,habit2, habit3));
+        }
+
+        if (eventRepository.findAll().size() == 0) {
+            Event event1 = new Event(habit1, userRepository.findByUsername("Arnold"));
+            Event event2 = new Event(habit1, userRepository.findByUsername("Arnold"));
+            Event event3 = new Event(habit2, userRepository.findByUsername("Rosa"));
+            Event event4 = new Event(habit3, userRepository.findByUsername("Arnold"));
+            eventRepository.saveAllAndFlush(Arrays.asList(event1,event2, event3, event4));
         }
     }
 }

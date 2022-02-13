@@ -7,13 +7,15 @@
 <body>
 <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f8fd" th:fragment="header">
 
-    <span class="navbar-brand">BananaApp</span>
+        <div class="nav navbar-nav navbar-left">
+    <a class="navbar-brand" href="/home">BananaApp</a>
+        </div>
+
     <div class="collapse navbar-collapse">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/today">Today</a>
                 <a class="navbar-brand" href="/habits">Habits</a>
-                <a class="navbar-brand" href="/home">Home</a>
             </div>
 
             <div class="navbar-collapse collapse">

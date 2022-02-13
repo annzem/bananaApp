@@ -22,6 +22,7 @@
             let text = compiledTemplate({"habits": data});
             $("#dPS").html(text);
             $(".icon").click(function (event) {
+                // tickHabit('{{id}}');
                 if ($(event.currentTarget).hasClass("enabled")) {
                     $(event.currentTarget).removeClass("enabled");
                     $(event.currentTarget).addClass("disabled");
@@ -31,6 +32,12 @@
                 }
             });
         })
+    }
+
+    function tickHabit(habit_id) {
+        let url = "/today" + habit_id;
+        let token = $("meta[name='_csrf']").attr("content");
+        $.post(url, {_csrf: token});
     }
 
     $(function () {

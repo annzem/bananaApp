@@ -15,7 +15,6 @@ import java.util.Set;
 public class Habit {
 
     public Habit() {
-        //this.user = Utils.getCurrentUser();
     }
 
     public Habit(String title, User user, Integer per_day, String icon) {
@@ -39,8 +38,6 @@ public class Habit {
     private OffsetDateTime created;
 
     private LocalDate start;
-
-//    private Duration period; 1 time per period
 
     private Integer perDay;
 
@@ -72,10 +69,6 @@ public class Habit {
         return start;
     }
 
-//    public Duration getPeriod() {
-//        return period;
-//    }
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -105,6 +98,7 @@ public class Habit {
         return id;
     }
 
+    //    private Duration period; 1 time per period
     public String getIcon() { return icon; }
 
     public void setIcon(String icon) { this.icon = icon; }
