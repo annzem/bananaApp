@@ -13,14 +13,18 @@ public class Event {
 
     public Event () {}
 
-    public Event (Habit habit, User user) {
+    public Event (User user, Habit habit, int sort, boolean ticked) {
         this.habit = habit;
         this.user = user;
+        this.ticked = ticked;
+        this.sort = sort;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private int sort;
 
     @ManyToOne
     @JoinColumn(name="habit_id", nullable=false)
@@ -33,6 +37,8 @@ public class Event {
 
     @CreatedDate
     private OffsetDateTime created;
+
+    private Boolean ticked;
 
     public Long getId() {
         return id;
@@ -50,4 +56,15 @@ public class Event {
         return created;
     }
 
+    public boolean isTicked() {return ticked;}
+
+    public void setTicked(boolean ticked) { this.ticked = ticked; }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
 }

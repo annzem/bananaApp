@@ -3,6 +3,8 @@
 
 <head>
     <div th:replace="fragments/libs :: libs"></div>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <script src="/static/js/script.js"></script>
 </head>
 
@@ -19,10 +21,11 @@
         $.getJSON('http://localhost:8080/get_habits', function (data) {
             let template = $("#items").html();
             let compiledTemplate = Handlebars.compile(template);
+
             let text = compiledTemplate({"habits": data});
             $("#dPS").html(text);
             $(".icon").click(function (event) {
-                // tickHabit('{{id}}');
+                tickItem($(".icon").data("id"));
                 if ($(event.currentTarget).hasClass("enabled")) {
                     $(event.currentTarget).removeClass("enabled");
                     $(event.currentTarget).addClass("disabled");
@@ -34,28 +37,66 @@
         })
     }
 
-    function tickHabit(habit_id) {
-        let url = "/today" + habit_id;
+    function renderItems() {
+        $.getJSON('http://localhost:8080/get_today_items', function (data) {
+            let template = $("#items").html();
+            let compiledTemplate = Handlebars.compile(template);
+            let text = compiledTemplate({"items": data});
+            $("#dPS").html(text);
+            $(".icon").click(function (event) {
+                tickItem($(".icon").data("id"));
+                if ($(event.currentTarget).hasClass("enabled")) {
+                    $(event.currentTarget).removeClass("enabled");
+                    $(event.currentTarget).addClass("disabled");
+                } else {
+                    $(event.currentTarget).removeClass("disabled");
+                    $(event.currentTarget).addClass("enabled");
+                }
+            });
+        })
+    }
+
+    function tickItem(habit_id) {
+        let url = "/today/" + habit_id;
         let token = $("meta[name='_csrf']").attr("content");
         $.post(url, {_csrf: token});
     }
 
     $(function () {
-        renderHabitItems();
+        renderItems();
     });
 
 </script>
-
+more
 <script id="items" type="text/template">
     <dl>
-        {{#habits}}
+        {{#each items}}
         <dt>
-            {{#fori 0 perDay}}
-            <div class="icon {{icon}} disabled"></div>
-            {{/fori}}
+            {{#each this}}
+                {{#if checked}}
+                    <div class="icon {{icon}} enabled" data-id="{{id}}"></div>
+                {{else}}
+                    <div class="icon {{icon}} disabled" data-id="{{id}}"></div>
+                {{/if}}
+            {{/each}}
         </dt>
-        {{/habits}}
+        {{/each}}
     </dl>
+
+
+<!--    <dl>-->
+<!--        {{#habits}}-->
+<!--        <dt>-->
+<!--            {{#fori 0 perDay}}-->
+<!--                {{#if (more todayEvents 0) }}-->
+<!--                    <div class="icon {{icon}} disabled" data-id="{{id}}"></div>-->
+<!--                {{else}}-->
+<!--                    <div class="icon {{icon}} enabled" data-id="{{id}}"></div>-->
+<!--                {{/if}}-->
+<!--            {{/fori}}-->
+<!--        </dt>-->
+<!--        {{/habits}}-->
+<!--    </dl>-->
 </script>
 
 </body>

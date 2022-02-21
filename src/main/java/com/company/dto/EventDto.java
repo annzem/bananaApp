@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 public class EventDto {
     private Long id;
     private OffsetDateTime created;
+    private Boolean checked;
 
     public Long getId() {
         return id;
@@ -20,5 +21,13 @@ public class EventDto {
 
     public void setCreated(OffsetDateTime created) {
         this.created = created;
+    }
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

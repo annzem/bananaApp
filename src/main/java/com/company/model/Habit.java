@@ -76,16 +76,13 @@ public class Habit {
     public void setId(Long id) {
         this.id = id;
     }
+
     public void setPerDay(Integer perDay) {
         this.perDay = perDay;
     }
 
     public void setStart(LocalDate start) {
         this.start = start;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
     }
 
     public String getTitle() {
@@ -98,14 +95,14 @@ public class Habit {
         return id;
     }
 
-    //    private Duration period; 1 time per period
     public String getIcon() { return icon; }
 
     public void setIcon(String icon) { this.icon = icon; }
 
-    public int countItemsPerDay(long period) {
-        int secPerDay = 86400;
-        int items = (int) period / secPerDay;
-        return items;
-    }
+    //    private Duration period; 1 time per period
+    // public int countItemsPerDay(long period) {
+    //        int secPerDay = 86400;
+    //        int items = (int) period / secPerDay;
+    //        return items;
+    //    }
 }

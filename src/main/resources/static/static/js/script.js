@@ -6,3 +6,8 @@ Handlebars.registerHelper("fori", function(fromI, toI, options) {
     }
     return itemsAsHtml;
 });
+
+Handlebars.registerHelper("more", function(a, b, options) {
+    return a > b;
+});
+

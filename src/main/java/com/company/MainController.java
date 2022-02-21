@@ -1,8 +1,10 @@
 package com.company;
 
 import com.company.dto.HabitDto;
+import com.company.dto.ItemDto;
 import com.company.dto.UserDto;
 import com.company.dto.UserEditorDto;
+import com.company.model.Event;
 import com.company.model.Habit;
 import com.company.model.User;
 import com.company.model.repository.EventRepository;
@@ -11,6 +13,7 @@ import com.company.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @PreAuthorize("isAuthenticated()")
 @Controller
@@ -69,15 +73,42 @@ public class MainController {
         return ResponseEntity.ok(habitDtos);
     }
 
+    @GetMapping("/get_today_items")
+    public ResponseEntity<List<List<ItemDto>>> getItems() {
+        List<Habit> habits = habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get());
+        List<List<ItemDto>> items = new ArrayList<>();
+        for (int i = 0; i < habits.size(); i++) {
+            List<Event> events = eventRepository.findTodayEventsByHabit(habits.get(i));
+            List<ItemDto> habitItems = new ArrayList<>();
+
+            for (int j = 0; j < habits.get(i).getPerDay(); j++) {
+                Optional<Event> lastEvent = eventRepository.findFirstEventByHabitAndSortOrderByCreatedDesc(habits.get(i), j);
+                if (lastEvent.isPresent()) {
+                    habitItems.add(new ItemDto(habits.get(i).getId(), j, lastEvent.get().isTicked(), habits.get(i).getIcon()));
+                } else {
+                    habitItems.add(new ItemDto(habits.get(i).getId(), j, false, habits.get(i).getIcon()));
+                }
+            }
+            items.add(habitItems);
+        }
+        return ResponseEntity.ok(items);
+    }
+
     @GetMapping("/today")
     public String today(Model model) {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
+
         return "today";
     }
 
     @PostMapping("/today/{habit_id}")
-    public ResponseEntity<String> tickHabit(@PathVariable String habit_id, @ModelAttribute HabitDto habitDto, Model model) {
+    public ResponseEntity<String> tickHabit(@PathVariable String habit_id, @ModelAttribute HabitDto habitDto,
+                                            Model model) {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
+        Habit habit = habitRepository.getById(Long.valueOf(habit_id));
+        //     Event event = new Event(habit, auditorAware.getCurrentAuditor().get());
+        //     eventRepository.saveAndFlush(event);
+
         return ResponseEntity.ok().build();
     }
 
