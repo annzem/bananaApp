@@ -46,7 +46,7 @@ public class Habit {
     @Column(nullable = false, unique = false)
     private String title;
 
-    @OneToMany(mappedBy = "habit")
+    @OneToMany(mappedBy = "habit", orphanRemoval = true)
     private Set<Event> events = new HashSet<>();
 
     public void setTitle(String title) {
