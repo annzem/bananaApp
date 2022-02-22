@@ -101,14 +101,14 @@ public class MainController {
         return "today";
     }
 
-    @PostMapping("/today/{habit_id}")
-    public ResponseEntity<String> tickHabit(@PathVariable String habit_id, @ModelAttribute HabitDto habitDto,
-                                            Model model) {
-        model.addAttribute("user", auditorAware.getCurrentAuditor().get());
-        Habit habit = habitRepository.getById(Long.valueOf(habit_id));
-        //     Event event = new Event(habit, auditorAware.getCurrentAuditor().get());
-        //     eventRepository.saveAndFlush(event);
-
+    @PostMapping("/tick")
+    public ResponseEntity<String> tickHabit(@RequestParam(name = "habit_id") Long habitId,
+                                            @RequestParam(name = "sort") int sort,
+                                            @RequestParam(name = "ticked") boolean ticked
+                                            ) {
+        Habit habit = habitRepository.getById(Long.valueOf(habitId));
+        Event event = new Event(auditorAware.getCurrentAuditor().get(), habit, sort, ticked);
+        eventRepository.saveAndFlush(event);
         return ResponseEntity.ok().build();
     }
 

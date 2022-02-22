@@ -44,22 +44,23 @@
             let text = compiledTemplate({"items": data});
             $("#dPS").html(text);
             $(".icon").click(function (event) {
-                tickItem($(".icon").data("id"));
-                if ($(event.currentTarget).hasClass("enabled")) {
-                    $(event.currentTarget).removeClass("enabled");
-                    $(event.currentTarget).addClass("disabled");
-                } else {
-                    $(event.currentTarget).removeClass("disabled");
-                    $(event.currentTarget).addClass("enabled");
-                }
-            });
+                    if ($(event.currentTarget).hasClass("enabled")) {
+                        tickItem($(event.target).data("habit_id"), $(event.target).data("sort"), false);
+                        $(event.currentTarget).removeClass("enabled");
+                        $(event.currentTarget).addClass("disabled");
+                    } else {
+                        tickItem($(event.target).data("habit_id"), $(event.target).data("sort"), true);
+                        $(event.currentTarget).removeClass("disabled");
+                        $(event.currentTarget).addClass("enabled");
+                    }
+                });
         })
     }
 
-    function tickItem(habit_id) {
-        let url = "/today/" + habit_id;
+    function tickItem(habit_id, sort, ticked) {
+        let url = "/tick";
         let token = $("meta[name='_csrf']").attr("content");
-        $.post(url, {_csrf: token});
+        $.post(url, {_csrf: token, "habit_id": habit_id, "sort": sort, "ticked": ticked});
     }
 
     $(function () {
@@ -67,16 +68,16 @@
     });
 
 </script>
-more
+
 <script id="items" type="text/template">
     <dl>
         {{#each items}}
         <dt>
             {{#each this}}
                 {{#if checked}}
-                    <div class="icon {{icon}} enabled" data-id="{{id}}"></div>
+                    <div class="icon {{icon}} enabled" data-habit_id="{{habit_id}}" data-sort="{{sort}}"></div>
                 {{else}}
-                    <div class="icon {{icon}} disabled" data-id="{{id}}"></div>
+                    <div class="icon {{icon}} disabled" data-habit_id="{{habit_id}}" data-sort="{{sort}}"></div>
                 {{/if}}
             {{/each}}
         </dt>
