@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <div th:replace="fragments/libs :: libs"></div>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="/static/js/script.js"></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">...</div>
+
+<p id="dPS"></p>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<script>
+    function renderHabitItems() {
+        $.getJSON('http://localhost:8080/get_habits', function (data) {
+            let template = $("#items").html();
+            let compiledTemplate = Handlebars.compile(template);
+
+            let text = compiledTemplate({"habits": data});
+            $("#dPS").html(text);
+            $(".icon").click(function (event) {
+                tickItem($(".icon").data("id"));
+                if ($(event.currentTarget).hasClass("enabled")) {
+                    $(event.currentTarget).removeClass("enabled");
+                    $(event.currentTarget).addClass("disabled");
+                } else {
+                    $(event.currentTarget).removeClass("disabled");
+                    $(event.currentTarget).addClass("enabled");
+                }
+            });
+        })
+    }
+
+    function renderItems() {
+        $.getJSON('http://localhost:8080/get_today_items', function (data) {
+            let template = $("#items").html();
+            let compiledTemplate = Handlebars.compile(template);
+            let text = compiledTemplate({"items": data});
+            $("#dPS").html(text);
+            $(".icon").click(function (event) {
+                    if ($(event.currentTarget).hasClass("enabled")) {
+                        tickItem($(event.target).data("habit_id"), $(event.target).data("sort"), false);
+                        $(event.currentTarget).removeClass("enabled");
+                        $(event.currentTarget).addClass("disabled");
+                    } else {
+                        tickItem($(event.target).data("habit_id"), $(event.target).data("sort"), true);
+                        $(event.currentTarget).removeClass("disabled");
+                        $(event.currentTarget).addClass("enabled");
+                    }
+                });
+        })
+    }
+
+    function tickItem(habit_id, sort, ticked) {
+        let url = "/tick";
+        let token = $("meta[name='_csrf']").attr("content");
+        $.post(url, {_csrf: token, "habit_id": habit_id, "sort": sort, "ticked": ticked});
+    }
+
+    $(function () {
+        renderItems();
+    });
+
+</script>
+
+<script id="items" type="text/template">
+    <dl>
+        {{#each items}}
+        <dt>
+            {{#each this}}
+                {{#if checked}}
+                    <div class="icon {{icon}} enabled" data-habit_id="{{habit_id}}" data-sort="{{sort}}"></div>
+                {{else}}
+                    <div class="icon {{icon}} disabled" data-habit_id="{{habit_id}}" data-sort="{{sort}}"></div>
+                {{/if}}
+            {{/each}}
+        </dt>
+        {{/each}}
+    </dl>
+
+
+<!--    <dl>-->
+<!--        {{#habits}}-->
+<!--        <dt>-->
+<!--            {{#fori 0 perDay}}-->
+<!--                {{#if (more todayEvents 0) }}-->
+<!--                    <div class="icon {{icon}} disabled" data-id="{{id}}"></div>-->
+<!--                {{else}}-->
+<!--                    <div class="icon {{icon}} enabled" data-id="{{id}}"></div>-->
+<!--                {{/if}}-->
+<!--            {{/fori}}-->
+<!--        </dt>-->
+<!--        {{/habits}}-->
+<!--    </dl>-->
+</script>
+
+</body>
+</html>

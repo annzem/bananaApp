@@ -5,14 +5,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HabitDto {
 
+    private String title;
+    private Long id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start;
-    private String title;
     private int perDay;
+//    private int todayEvents;
+
+//    @OneToMany(mappedBy = "habit")
+//    private Set<EventDto> events = new HashSet<>();
+
+    private String icon;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,4 +47,27 @@ public class HabitDto {
     public int getPerDay() { return perDay; }
 
     public void setPerDay(int perDay) { this.perDay = perDay; }
+
+//    public Set<EventDto> getEvents() {
+//        return events;
+//    }
+    public String getIcon() { return icon; }
+
+    public void setIcon(String icon) { this.icon = icon; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+//    public int getTodayEvents() {
+//        return todayEvents;
+//    }
+//
+//    public void setTodayEvents(int todayEvents) {
+//        this.todayEvents = todayEvents;
+//    }
 }

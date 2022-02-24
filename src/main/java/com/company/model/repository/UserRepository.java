@@ -1,5 +1,6 @@
 package com.company.model.repository;
 
+import com.company.model.Habit;
 import com.company.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

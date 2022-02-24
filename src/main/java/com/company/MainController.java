@@ -1,15 +1,19 @@
 package com.company;
 
 import com.company.dto.HabitDto;
+import com.company.dto.ItemDto;
 import com.company.dto.UserDto;
 import com.company.dto.UserEditorDto;
+import com.company.model.Event;
 import com.company.model.Habit;
 import com.company.model.User;
+import com.company.model.repository.EventRepository;
 import com.company.model.repository.HabitRepository;
 import com.company.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,19 +23,23 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @PreAuthorize("isAuthenticated()")
 @Controller
 public class MainController {
 
+    private EventRepository eventRepository;
     private HabitRepository habitRepository;
     private UserRepository userRepository;
     private AuditorAware<User> auditorAware;
     private ModelMapper modelMapper;
 
     @Autowired
-    public MainController(HabitRepository habitRepository, UserRepository userRepository, AuditorAware<User> auditorAware, ModelMapper modelMapper) {
+    public MainController(EventRepository eventRepository, HabitRepository habitRepository, UserRepository userRepository, AuditorAware<User> auditorAware, ModelMapper modelMapper) {
+        this.eventRepository = eventRepository;
         this.habitRepository = habitRepository;
         this.userRepository = userRepository;
         this.auditorAware = auditorAware;
@@ -55,14 +63,53 @@ public class MainController {
     }
 
     @GetMapping("/get_habits")
-    public ResponseEntity<List<Habit>> getHabits() {
-        return ResponseEntity.ok(habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get()));
+    public ResponseEntity<List<HabitDto>> getHabits() {
+        List<Habit> habits = habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get());
+        List<HabitDto> habitDtos = new ArrayList<>();
+        for (int i = 0; i < habits.size(); i++) {
+            HabitDto habitDto = modelMapper.map(habits.get(i), HabitDto.class);
+            habitDtos.add(habitDto);
+        }
+        return ResponseEntity.ok(habitDtos);
+    }
+
+    @GetMapping("/get_today_items")
+    public ResponseEntity<List<List<ItemDto>>> getItems() {
+        List<Habit> habits = habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get());
+        List<List<ItemDto>> items = new ArrayList<>();
+        for (int i = 0; i < habits.size(); i++) {
+            List<Event> events = eventRepository.findTodayEventsByHabit(habits.get(i));
+            List<ItemDto> habitItems = new ArrayList<>();
+
+            for (int j = 0; j < habits.get(i).getPerDay(); j++) {
+                Optional<Event> lastEvent = eventRepository.findFirstEventByHabitAndSortOrderByCreatedDesc(habits.get(i), j);
+                if (lastEvent.isPresent()) {
+                    habitItems.add(new ItemDto(habits.get(i).getId(), j, lastEvent.get().isTicked(), habits.get(i).getIcon()));
+                } else {
+                    habitItems.add(new ItemDto(habits.get(i).getId(), j, false, habits.get(i).getIcon()));
+                }
+            }
+            items.add(habitItems);
+        }
+        return ResponseEntity.ok(items);
     }
 
     @GetMapping("/today")
     public String today(Model model) {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
-        return "dailyPlanScreen";
+
+        return "today";
+    }
+
+    @PostMapping("/tick")
+    public ResponseEntity<String> tickHabit(@RequestParam(name = "habit_id") Long habitId,
+                                            @RequestParam(name = "sort") int sort,
+                                            @RequestParam(name = "ticked") boolean ticked
+                                            ) {
+        Habit habit = habitRepository.getById(Long.valueOf(habitId));
+        Event event = new Event(auditorAware.getCurrentAuditor().get(), habit, sort, ticked);
+        eventRepository.saveAndFlush(event);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/new_habit_page")
@@ -94,11 +141,7 @@ public class MainController {
         model.addAttribute("user", auditorAware.getCurrentAuditor().get());
         Habit habit = habitRepository.getById(Long.valueOf(id));
         model.addAttribute("habit", habit);
-        model.addAttribute("habitDto", habitDto);
-        Habit habit2 = modelMapper.map(habitDto, Habit.class);
-        habit.setTitle(habit2.getTitle());
-        habit.setStart(habit2.getStart());
-        habit.setPerDay(habit2.getPerDay());
+        modelMapper.map(habitDto, habit);
         habitRepository.saveAndFlush(habit);
         return new RedirectView("/habits");
     }
@@ -114,8 +157,6 @@ public class MainController {
     @GetMapping("/user_editor")
     public String userRedactorForm(Model model) {
         UserEditorDto userEditorDto = convertUserToUserEditorDto(auditorAware.getCurrentAuditor().get());
-
-
         model.addAttribute("userEditorDto", userEditorDto);
         return "user_editor";
     }
@@ -127,7 +168,6 @@ public class MainController {
     public RedirectView userRedactorRes(@ModelAttribute UserDto userDto, Model model) {
         User currentUser = auditorAware.getCurrentAuditor().get();
         currentUser.setUsername(userDto.getUsername());
-
         userRepository.saveAndFlush(currentUser);
         return new RedirectView("/habits");
     }

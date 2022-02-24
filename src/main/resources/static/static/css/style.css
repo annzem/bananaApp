@@ -1,0 +1,128 @@
+body {
+    padding-top: 65px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+}
+
+span, label {
+    font-weight: normal;
+}
+
+div.icon {
+    width: 80px;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-size: 70px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div.snail.enabled {
+    background-image: url("/static/icons/snail_e.jpg");
+}
+
+div.snail.disabled {
+    background-image: url("/static/icons/snail.jpg");
+}
+
+div.goose.enabled {
+    background-image: url("/static/icons/goose_e.png");
+}
+
+div.goose.disabled {
+    background-image: url("/static/icons/goose.png");
+}
+
+.btn-link-signout {
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    color: #337ab7;
+    font-family: inherit;
+    font-size: inherit;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.btn-link-signout:hover {
+    text-decoration: none;
+    background-color: #eee;
+    color: #23527c;
+}
+
+.nav-item:hover {
+    text-decoration: none;
+    color: #23527c;
+    background-color: inherit !important;
+}
+
+.box {
+    width: 100%;
+    max-width: 360px;
+    padding: 15px;
+}
+
+.custom-radio-button__container input[type="radio"] {
+    display: none;
+}
+
+.custom-radio-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 10px 15px;
+    border: 2px solid #979797;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.custom-radio-button__container input[type="radio"]:checked + .custom-radio-button {
+    border: 2px solid #419de9;
+    box-shadow: 0px 0px 16px -6px rgba(0, 0, 0, .5);
+}
+
+.home {
+    float: left;
+    margin: 20px;
+}
+
+.button-1 {
+    background-image: linear-gradient(#f7f8fa ,#e7e9ec);
+    border-color: #adb1b8 #a2a6ac #8d9096;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    box-shadow: rgba(255,255,255,.6) 0 1px 0 inset;
+    box-sizing: border-box;
+    color: #0f1111;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    font-size: 14px;
+    height: 29px;
+    font-size: 13px;
+    outline: 0;
+    overflow: hidden;
+    padding: 0 11px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+                                                   }
+
+.button-1:active {
+    border-bottom-color: #a2a6ac;
+}
+
+.button-1:focus {
+    border-color: #e77600;
+    box-shadow: rgba(228, 121, 17, .5) 0 0 3px 2px;
+    outline: 0;
+}

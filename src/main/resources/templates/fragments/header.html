@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <!DOCTYPE html>
+</head>
+<body>
+<nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f8fd" th:fragment="header">
+
+        <div class="nav navbar-nav navbar-left">
+    <a class="navbar-brand" href="/home">BananaApp</a>
+        </div>
+
+    <div class="collapse navbar-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/today">Today</a>
+                <a class="navbar-brand" href="/habits">Habits</a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li>
+                        <a class="nav-item" th:href="@{/user_editor}">Your profile</a>
+                    </li>
+
+<!--                    <li>-->
+<!--                        <a href="/signin" th:href="@{/signin}">-->
+<!--                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in-->
+<!--                        </a>-->
+<!--                    </li>-->
+
+                    <li>
+                        <form method="post" action="#" th:action="@{/logout}">
+                            <button type="submit" class="btn-link-signout">
+                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
