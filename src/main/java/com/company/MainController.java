@@ -78,7 +78,6 @@ public class MainController {
         List<Habit> habits = habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get());
         List<List<ItemDto>> items = new ArrayList<>();
         for (int i = 0; i < habits.size(); i++) {
-            List<Event> events = eventRepository.findTodayEventsByHabit(habits.get(i));
             List<ItemDto> habitItems = new ArrayList<>();
 
             for (int j = 0; j < habits.get(i).getPerDay(); j++) {

@@ -35,12 +35,16 @@ public class InitDB {
         User rosa = userRepository.findByUsername("Rosa");
 
         Habit habit1 = null, habit2 = null, habit3 = null;
+        Habit habit4 = null; Habit habit5 = null; Habit habit6 = null;
 
         if (habitRepository.findAll().size() == 0) {
-            habit1 = new Habit("goose", arnold, 3, "goose");
-            habit2 = new Habit("snail", rosa, 5, "snail");
-            habit3 = new Habit("snail", arnold, 6, "snail");
-            habitRepository.saveAllAndFlush(Arrays.asList(habit1,habit2, habit3));
+            habit1 = new Habit("vegetables", arnold, 6, "eggplant");
+            habit2 = new Habit("fats", rosa, 4, "oil");
+            habit3 = new Habit("fruits", arnold, 4, "apple");
+            habit4 = new Habit("fruits", rosa, 5, "apple");
+            habit5 = new Habit("cereals", rosa, 7, "grain");
+            habit6 = new Habit("fruits", vasya, 4, "apple");
+            habitRepository.saveAllAndFlush(Arrays.asList(habit1,habit2, habit3, habit4, habit5, habit6));
         }
 
         if (eventRepository.findAll().size() == 0) {
@@ -48,7 +52,11 @@ public class InitDB {
             Event event2 = new Event(userRepository.findByUsername("Arnold"), habit1, 1, true);
             Event event3 = new Event(userRepository.findByUsername("Rosa"), habit2, 0, true);
             Event event4 = new Event(userRepository.findByUsername("Arnold"), habit3, 0, true);
-            eventRepository.saveAllAndFlush(Arrays.asList(event1,event2, event3, event4));
+            Event event5 = new Event(userRepository.findByUsername("Rosa"), habit4, 0, true);
+            Event event6 = new Event(userRepository.findByUsername("Rosa"), habit4, 1, true);
+            Event event7 = new Event(userRepository.findByUsername("Rosa"), habit5, 0, true);
+            Event event8 = new Event(userRepository.findByUsername("Rosa"), habit5, 1, true);
+            eventRepository.saveAllAndFlush(Arrays.asList(event1,event2, event3, event4, event5, event6, event7, event8));
         }
     }
 }
