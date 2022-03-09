@@ -15,23 +15,8 @@
     <p>Title: <input name="title" type="text" required="required" th:value="${habit.getTitle()}"/></p>
     <p>Times per day: <input name="perDay" type="number" min="0" max="8" th:value="${habit.getPerDay()}" /></p>
     <p>Start date: <input type="date" name="start" th:value="${habit.getStart()}"/></p>
-<!--    <div th:class="|icon ${habit.getIcon()} disabled|"></div>-->
 
-    <div class="box">
-        <label class="custom-radio-button__container">
-            <input type="radio" name="icon" value="snail" th:field="*{icon}">
-            <span class="custom-radio-button">
-                    <img src="/static/icons/snail_e.jpg" width="50">
-                    </span>
-        </label>
-
-        <label class="custom-radio-button__container">
-            <input type="radio" name="icon" value="goose" th:field="*{icon}">
-            <span class="custom-radio-button">
-                    <img src="/static/icons/goose_e.png" width="50">
-                    </span>
-        </label>
-    </div>
+    <div th:replace="fragments/icons :: icons (checked = ${habit.getIcon()})"></div>
 
     <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
 </form>

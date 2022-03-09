@@ -13,7 +13,6 @@ import com.company.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,15 +77,23 @@ public class MainController {
 
     @GetMapping("/get_today_items")
     public ResponseEntity<List<List<ItemDto>>> getItems() {
-        List<Habit> habits = habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get());
+        List<Habit> habits = habitRepository.findHabitsByUserAndStartBefore(auditorAware.getCurrentAuditor().get(), LocalDate.now().plusDays(1));
         List<List<ItemDto>> items = new ArrayList<>();
+
+        LocalDateTime yesterdayLD = LocalDate.now().atStartOfDay().minusDays(1);
+        OffsetDateTime yesterday = OffsetDateTime.of(yesterdayLD, ZoneOffset.UTC);
+        LocalDateTime todayLD = LocalDate.now().atStartOfDay();
+        OffsetDateTime today = OffsetDateTime.of(todayLD, ZoneOffset.UTC);
+
         for (int i = 0; i < habits.size(); i++) {
             List<ItemDto> habitItems = new ArrayList<>();
 
+//            List<Map<>> items = eventRepository.getItems();
+
             for (int j = 0; j < habits.get(i).getPerDay(); j++) {
-                Optional<Event> lastEvent = eventRepository.findFirstEventByHabitAndSortOrderByCreatedDesc(habits.get(i), j);
+                Optional<Event> lastEvent = eventRepository.findFirstEventByHabitAndSortAndCreatedBetweenOrderByCreatedDesc(habits.get(i), j, yesterday, today);
                 if (lastEvent.isPresent()) {
-                    habitItems.add(new ItemDto(habits.get(i).getId(), j, lastEvent.get().isTicked(), habits.get(i).getIcon()));
+                    habitItems.add(new ItemDto(habits.get(i).getId(), j, lastEvent.get().isChecked(), habits.get(i).getIcon()));
                 } else {
                     habitItems.add(new ItemDto(habits.get(i).getId(), j, false, habits.get(i).getIcon()));
                 }
@@ -104,7 +114,7 @@ public class MainController {
     public ResponseEntity<String> tickHabit(@RequestParam(name = "habit_id") Long habitId,
                                             @RequestParam(name = "sort") int sort,
                                             @RequestParam(name = "ticked") boolean ticked
-                                            ) {
+    ) {
         Habit habit = habitRepository.getById(Long.valueOf(habitId));
         Event event = new Event(auditorAware.getCurrentAuditor().get(), habit, sort, ticked);
         eventRepository.saveAndFlush(event);
@@ -163,7 +173,6 @@ public class MainController {
     @PostMapping(value = "/user_editor",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.TEXT_HTML_VALUE)
-
     public RedirectView userRedactorRes(@ModelAttribute UserDto userDto, Model model) {
         User currentUser = auditorAware.getCurrentAuditor().get();
         currentUser.setUsername(userDto.getUsername());

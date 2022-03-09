@@ -13,10 +13,10 @@ public class Event {
 
     public Event () {}
 
-    public Event (User user, Habit habit, int sort, boolean ticked) {
+    public Event (User user, Habit habit, int sort, boolean checked) {
         this.habit = habit;
         this.user = user;
-        this.ticked = ticked;
+        this.checked = checked;
         this.sort = sort;
     }
 
@@ -38,7 +38,7 @@ public class Event {
     @CreatedDate
     private OffsetDateTime created;
 
-    private Boolean ticked;
+    private Boolean checked;
 
     public Long getId() {
         return id;
@@ -56,9 +56,9 @@ public class Event {
         return created;
     }
 
-    public boolean isTicked() {return ticked;}
+    public boolean isChecked() {return checked;}
 
-    public void setTicked(boolean ticked) { this.ticked = ticked; }
+    public void setChecked(boolean ticked) { this.checked = ticked; }
 
     public int getSort() {
         return sort;
