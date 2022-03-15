@@ -1,9 +1,6 @@
 package com.company;
 
-import com.company.dto.HabitDto;
-import com.company.dto.ItemDto;
-import com.company.dto.UserDto;
-import com.company.dto.UserEditorDto;
+import com.company.dto.*;
 import com.company.model.Event;
 import com.company.model.Habit;
 import com.company.model.User;
@@ -13,7 +10,6 @@ import com.company.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +22,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @PreAuthorize("isAuthenticated()")
 @Controller
@@ -78,8 +76,9 @@ public class MainController {
         List<Habit> habits = habitRepository.findHabitsByUser(auditorAware.getCurrentAuditor().get());
         List<List<ItemDto>> items = new ArrayList<>();
         for (int i = 0; i < habits.size(); i++) {
-            List<Event> events = eventRepository.findTodayEventsByHabit(habits.get(i));
-            List<ItemDto> habitItems = new ArrayList<>();
+            Habit habit = habits.get(i);
+            //List<Event> events = eventRepository.findTodayEventsByHabit(habits.get(i));
+            /*List<ItemDto> habitItems = new ArrayList<>();
 
             for (int j = 0; j < habits.get(i).getPerDay(); j++) {
                 Optional<Event> lastEvent = eventRepository.findFirstEventByHabitAndSortOrderByCreatedDesc(habits.get(i), j);
@@ -88,9 +87,20 @@ public class MainController {
                 } else {
                     habitItems.add(new ItemDto(habits.get(i).getId(), j, false, habits.get(i).getIcon()));
                 }
-            }
-            items.add(habitItems);
+            }*/
+
+            List<ItemDbDto> habitItems = eventRepository.findItems(habit.getId(), LocalDate.now(), LocalDate.now().plusDays(1));
+
+            List<ItemDto> itemDtos = habitItems.stream().map(itemDbDto ->
+                            new ItemDto(habit.getId(),
+                                    itemDbDto.getSort(),
+                                    itemDbDto.getTicked(),
+                                    habit.getIcon())
+            ).collect(Collectors.toList());
+
+            items.add(itemDtos);
         }
+
         return ResponseEntity.ok(items);
     }
 
@@ -107,7 +117,7 @@ public class MainController {
                                             @RequestParam(name = "ticked") boolean ticked
                                             ) {
         Habit habit = habitRepository.getById(Long.valueOf(habitId));
-        Event event = new Event(auditorAware.getCurrentAuditor().get(), habit, sort, ticked);
+        Event event = new Event(habit, sort, ticked);
         eventRepository.saveAndFlush(event);
         return ResponseEntity.ok().build();
     }

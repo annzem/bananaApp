@@ -1,8 +1,7 @@
 package com.company.dto;
 
-import com.company.model.Habit;
-
 public class ItemDto {
+
     private Long habit_id;
 
     private int sort;
@@ -10,6 +9,9 @@ public class ItemDto {
     private boolean checked;
 
     private String icon;
+
+    public ItemDto() {
+    }
 
     public ItemDto(Long habit_id, int sort, boolean checked, String icon) {
         this.habit_id = habit_id;

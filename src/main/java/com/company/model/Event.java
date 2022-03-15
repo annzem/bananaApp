@@ -1,21 +1,22 @@
 package com.company.model;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
+//@NamedNativeQuery(name = "com.company.model.repository.EventRepository.findItems",
+//        query = "SELECT p.first_name as first, p.last_name as last FROM Chess_Player p WHERE id = :id",
+//        resultSetMapping = "Mapping.PlayerNameDto")
 @EntityListeners(AuditingEntityListener.class)
 @Entity(name = "event")
 public class Event {
 
     public Event () {}
 
-    public Event (User user, Habit habit, int sort, boolean ticked) {
+    public Event (Habit habit, int sort, boolean ticked) {
         this.habit = habit;
-        this.user = user;
         this.ticked = ticked;
         this.sort = sort;
     }
@@ -30,11 +31,6 @@ public class Event {
     @JoinColumn(name="habit_id", nullable=false)
     private Habit habit;
 
-    @CreatedBy
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
-
     @CreatedDate
     private OffsetDateTime created;
 
@@ -46,10 +42,6 @@ public class Event {
 
     public Habit getHabit() {
         return habit;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public OffsetDateTime getCreated() {
