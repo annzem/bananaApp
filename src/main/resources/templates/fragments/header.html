@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <!DOCTYPE html>
-</head>
-<body>
+
 <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f8fd" th:fragment="header">
 
         <div class="nav navbar-nav navbar-left">
@@ -25,12 +21,6 @@
                         <a class="nav-item" th:href="@{/user_editor}">Your profile</a>
                     </li>
 
-<!--                    <li>-->
-<!--                        <a href="/signin" th:href="@{/signin}">-->
-<!--                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in-->
-<!--                        </a>-->
-<!--                    </li>-->
-
                     <li>
                         <form method="post" action="#" th:action="@{/logout}">
                             <button type="submit" class="btn-link-signout">
@@ -44,5 +34,5 @@
         </div>
     </div>
 </nav>
-</body>
+
 </html>

@@ -31,7 +31,7 @@ public class Habit {
     private User user;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @CreatedDate

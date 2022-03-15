@@ -10,27 +10,11 @@ span, label {
 
 div.icon {
     width: 80px;
-    height: 120px;
+    height: 100px;
     background-repeat: no-repeat;
     background-size: 70px;
     display: inline-block;
     vertical-align: middle;
-}
-
-div.snail.enabled {
-    background-image: url("/static/icons/snail_e.jpg");
-}
-
-div.snail.disabled {
-    background-image: url("/static/icons/snail.jpg");
-}
-
-div.goose.enabled {
-    background-image: url("/static/icons/goose_e.png");
-}
-
-div.goose.disabled {
-    background-image: url("/static/icons/goose.png");
 }
 
 .btn-link-signout {
@@ -115,7 +99,7 @@ div.goose.disabled {
     -webkit-user-select: none;
     touch-action: manipulation;
     white-space: nowrap;
-                                                   }
+}
 
 .button-1:active {
     border-bottom-color: #a2a6ac;

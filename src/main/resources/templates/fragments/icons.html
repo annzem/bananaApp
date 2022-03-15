@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<th:block th:fragment="icons(checked)"
+          th:with="iconsList = ${ {'apple', 'eggplant', 'beans', 'oil', 'grain'} }">
+
+    <div class="box">
+
+        <th:block th:each="icon : ${iconsList}">
+            <label class="custom-radio-button__container" th:if="${icon == checked}">
+                <input type="radio" name="icon" th:value="${icon}" required checked>
+                <span class="custom-radio-button">
+                    <img th:src="'/static/icons/' + ${icon} + '_e.svg'" width="60">
+            </span>
+            </label>
+
+            <label class="custom-radio-button__container" th:unless="${icon == checked}">
+                <input type="radio" name="icon" th:value="${icon}">
+                <span class="custom-radio-button">
+                    <img th:src="'/static/icons/' + ${icon} + '_e.svg'" width="60">
+            </span>
+            </label>
+        </th:block>
+    </div>
+
+</th:block>
+
+</html>
