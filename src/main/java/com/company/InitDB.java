@@ -48,14 +48,14 @@ public class InitDB {
         }
 
         if (eventRepository.findAll().size() == 0) {
-            Event event1 = new Event(userRepository.findByUsername("Arnold"), habit1, 0, true);
-            Event event2 = new Event(userRepository.findByUsername("Arnold"), habit1, 1, true);
-            Event event3 = new Event(userRepository.findByUsername("Rosa"), habit2, 0, true);
-            Event event4 = new Event(userRepository.findByUsername("Arnold"), habit3, 0, true);
-            Event event5 = new Event(userRepository.findByUsername("Rosa"), habit4, 0, true);
-            Event event6 = new Event(userRepository.findByUsername("Rosa"), habit4, 1, true);
-            Event event7 = new Event(userRepository.findByUsername("Rosa"), habit5, 0, true);
-            Event event8 = new Event(userRepository.findByUsername("Rosa"), habit5, 1, true);
+            Event event1 = new Event(habit1, 0, true);
+            Event event2 = new Event(habit1, 1, true);
+            Event event3 = new Event(habit2, 0, true);
+            Event event4 = new Event(habit3, 0, true);
+            Event event5 = new Event(habit4, 0, true);
+            Event event6 = new Event(habit4, 1, true);
+            Event event7 = new Event(habit5, 0, true);
+            Event event8 = new Event(habit5, 1, true);
             eventRepository.saveAllAndFlush(Arrays.asList(event1,event2, event3, event4, event5, event6, event7, event8));
         }
     }
