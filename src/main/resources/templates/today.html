@@ -19,11 +19,15 @@
 <script>
 
     function renderItems() {
-        $.getJSON('/get_today_items', function (data) {
+        let httpRequest = new XMLHttpRequest();
+
+        httpRequest.onreadystatechange = function () {
+            let data = JSON.parse(httpRequest.responseText);
+
             let sheet = document.getElementById("jsStyle").sheet;
             for (let i = 0; i < data.length; i++) {
                 sheet.insertRule(".icon-" + data[i][0].icon + ".enabled" +
-                        "{ background-image: url(\'/static/icons/" + data[i][0].icon + "_e.svg\') }");
+                    "{ background-image: url(\'/static/icons/" + data[i][0].icon + "_e.svg\') }");
                 sheet.insertRule(".icon-" + data[i][0].icon +
                     "{ background-image: url(\'/static/icons/" + data[i][0].icon + ".svg\') }");
             }
@@ -31,41 +35,66 @@
             let compiledTemplate = Handlebars.compile(template);
             let text = compiledTemplate({"items": data});
             document.getElementById("dPS").innerHTML = text;
-        });
+
+        };
+        httpRequest.open('GET', '/get_today_items');
+        httpRequest.send();
+
     }
 
     function updateItems() {
-        $.getJSON('/get_today_items', function (data) {
+        let httpRequest = new XMLHttpRequest();
+
+        httpRequest.onreadystatechange = function () {
+            let data = JSON.parse(httpRequest.responseText);
+
             for (let i = 0; i < data.length; i++) {
                 for (let j = 0; j < data[i].length; j++) {
-                    let item = $("#" + data[i][j].habit_id + "_" + j);
-                    let enabled = item.hasClass("enabled");
+                    let item = document.getElementById(data[i][j].habit_id + "_" + j);
+                    let enabled = item.classList.contains("enabled");
                     if (data[i][j].checked != enabled) {
+                        let elem = document.getElementById(data[i][j].habit_id + "_" + j);
                         if (data[i][j].checked) {
-                            $("#" + data[i][j].habit_id + "_" + j).addClass("enabled");
+                            elem.classList.add("enabled");
                         } else {
-                            $("#" + data[i][j].habit_id + "_" + j).removeClass("enabled");
+                            elem.classList.remove("enabled");
                         }
                     }
                 }
             }
-        });
+        }
+        httpRequest.open('GET', '/get_today_items');
+        httpRequest.send();
     }
 
     function tick(target) {
-        let jTarget = $(target);
-        tickItem(jTarget.data("habit_id"), jTarget.data("sort"), !jTarget.hasClass("enabled"), updateItems);
+        tickItem(target.dataset.habit_id, target.dataset.sort, !target.classList.contains("enabled"), updateItems);
     }
 
-    function tickItem(habit_id, sort, ticked, done) {
-        let url = "/tick";
-        let token = $("meta[name='_csrf']").attr("content");
-        $.post(url, {_csrf: token, "habit_id": habit_id, "sort": sort, "ticked": ticked}).done(done);
+    function tickItem(habitId, sort, ticked, done) {
+        let token = getCsrf();
+
+        let httpRequest = new XMLHttpRequest();
+
+        httpRequest.onreadystatechange = function () {
+            // let data = JSON.parse(httpRequest.responseText);
+            done();
+        }
+
+        let formData = new FormData();
+
+        formData.append("_csrf", token);
+        formData.append("habit_id", habitId);
+        formData.append("sort", sort);
+        formData.append("ticked", ticked);
+
+        httpRequest.open('POST', "/tick");
+        httpRequest.send(formData);
     }
 
-    $(function () {
+    document.addEventListener('DOMContentLoaded', function (event) {
         renderItems();
-    });
+    })
 
 </script>
 
