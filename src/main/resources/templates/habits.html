@@ -23,7 +23,7 @@
 <p id="habits"></p>
 <script>
     function renderHabits() {
-        $.getJSON('http://localhost:8080/get_habits', function (data) {
+        $.getJSON('/get_habits', function (data) {
 
             let template = $("#habits_template").html();
             let compiledTemplate = Handlebars.compile(template);

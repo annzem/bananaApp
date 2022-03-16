@@ -5,6 +5,7 @@
     <div th:replace="fragments/libs :: libs"></div>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <style id="jsStyle"></style>
 </head>
 
 <body>
@@ -16,25 +17,50 @@
 </form>
 
 <script>
+
     function renderItems() {
-        $.getJSON('http://localhost:8080/get_today_items', function (data) {
+        $.getJSON('/get_today_items', function (data) {
+            let sheet = document.getElementById("jsStyle").sheet;
+            for (let i = 0; i < data.length; i++) {
+                sheet.insertRule(".icon-" + data[i][0].icon + ".enabled" +
+                        "{ background-image: url(\'/static/icons/" + data[i][0].icon + "_e.svg\') }");
+                sheet.insertRule(".icon-" + data[i][0].icon +
+                    "{ background-image: url(\'/static/icons/" + data[i][0].icon + ".svg\') }");
+            }
             let template = $("#items").html();
             let compiledTemplate = Handlebars.compile(template);
             let text = compiledTemplate({"items": data});
             $("#dPS").html(text);
-            $(".icon").click(function (event) {
-                if($(event.currentTarget).data("checked")) {
-                    tickItem($(event.target).data("habit_id"), $(event.target).data("sort"), false);
-                } else {tickItem($(event.target).data("habit_id"), $(event.target).data("sort"), true);}
-            renderItems();
-            });
         });
     }
 
-    function tickItem(habit_id, sort, ticked) {
+    function updateItems() {
+        $.getJSON('/get_today_items', function (data) {
+            for (let i = 0; i < data.length; i++) {
+                for (let j = 0; j < data[i].length; j++) {
+                    let item = $("#" + data[i][j].habit_id + "_" + j);
+                    let enabled = item.hasClass("enabled");
+                    if (data[i][j].checked != enabled) {
+                        if (data[i][j].checked) {
+                            $("#" + data[i][j].habit_id + "_" + j).addClass("enabled");
+                        } else {
+                            $("#" + data[i][j].habit_id + "_" + j).removeClass("enabled");
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function tick(target) {
+        let jTarget = $(target);
+        tickItem(jTarget.data("habit_id"), jTarget.data("sort"), !jTarget.hasClass("enabled"), updateItems);
+    }
+
+    function tickItem(habit_id, sort, ticked, done) {
         let url = "/tick";
         let token = $("meta[name='_csrf']").attr("content");
-        $.post(url, {_csrf: token, "habit_id": habit_id, "sort": sort, "ticked": ticked});
+        $.post(url, {_csrf: token, "habit_id": habit_id, "sort": sort, "ticked": ticked}).done(done);
     }
 
     $(function () {
@@ -48,13 +74,17 @@
         {{#each items}}
         <dt>
             {{#each this}}
-                {{#if checked}}
-                    <div class="icon" style="background-image: url('/static/icons/{{icon}}_e.svg')"
-                         data-habit_id="{{habit_id}}" data-sort="{{sort}}" data-checked="{{checked}}"></div>
-                {{else}}
-                    <div class="icon" style="background-image: url('/static/icons/{{icon}}.svg')"
-                         data-habit_id="{{habit_id}}" data-sort="{{sort}}" data-checked="{{checked}}"></div>
-                {{/if}}
+            {{#if checked}}
+            <div class="icon icon-{{icon}} enabled"
+                 onclick="tick(this)"
+                 id="{{habit_id}}_{{sort}}"
+                 data-habit_id="{{habit_id}}" data-sort="{{sort}}"></div>
+            {{else}}
+            <div class="icon icon-{{icon}}"
+                 onclick="tick(this)"
+                 id="{{habit_id}}_{{sort}}"
+                 data-habit_id="{{habit_id}}" data-sort="{{sort}}"></div>
+            {{/if}}
             {{/each}}
         </dt>
         {{/each}}

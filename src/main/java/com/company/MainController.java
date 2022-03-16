@@ -77,26 +77,22 @@ public class MainController {
         List<List<ItemDto>> items = new ArrayList<>();
         for (int i = 0; i < habits.size(); i++) {
             Habit habit = habits.get(i);
-            //List<Event> events = eventRepository.findTodayEventsByHabit(habits.get(i));
-            /*List<ItemDto> habitItems = new ArrayList<>();
 
-            for (int j = 0; j < habits.get(i).getPerDay(); j++) {
-                Optional<Event> lastEvent = eventRepository.findFirstEventByHabitAndSortOrderByCreatedDesc(habits.get(i), j);
-                if (lastEvent.isPresent()) {
-                    habitItems.add(new ItemDto(habits.get(i).getId(), j, lastEvent.get().isTicked(), habits.get(i).getIcon()));
-                } else {
-                    habitItems.add(new ItemDto(habits.get(i).getId(), j, false, habits.get(i).getIcon()));
-                }
-            }*/
+            List<ItemDto> itemDtos = new ArrayList<>();
+
+            for (int j = 0; j < habit.getPerDay(); j++) {
+                ItemDto itemDto = new ItemDto(habit.getId(),
+                        j,
+                        false,
+                        habit.getIcon());
+                itemDtos.add(itemDto);
+            }
 
             List<ItemDbDto> habitItems = eventRepository.findItems(habit.getId(), LocalDate.now(), LocalDate.now().plusDays(1));
 
-            List<ItemDto> itemDtos = habitItems.stream().map(itemDbDto ->
-                            new ItemDto(habit.getId(),
-                                    itemDbDto.getSort(),
-                                    itemDbDto.getTicked(),
-                                    habit.getIcon())
-            ).collect(Collectors.toList());
+            for (ItemDbDto habitItem : habitItems) {
+                itemDtos.get(habitItem.getSort()).setChecked(habitItem.getTicked());
+            }
 
             items.add(itemDtos);
         }
