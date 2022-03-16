@@ -27,10 +27,10 @@
                 sheet.insertRule(".icon-" + data[i][0].icon +
                     "{ background-image: url(\'/static/icons/" + data[i][0].icon + ".svg\') }");
             }
-            let template = $("#items").html();
+            let template = document.getElementById("items").innerHTML;
             let compiledTemplate = Handlebars.compile(template);
             let text = compiledTemplate({"items": data});
-            $("#dPS").html(text);
+            document.getElementById("dPS").innerHTML = text;
         });
     }
 
