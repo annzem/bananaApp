@@ -20,30 +20,42 @@
     <th:block th:text="${user.getUsername()}">[name]</th:block>
     :
 </p>
-<p id="habits"></p>
+<p id="habitsP"></p>
 <script>
-    function renderHabits() {
-        $.getJSON('/get_habits', function (data) {
 
-            let template = $("#habits_template").html();
+    function renderHabits() {
+        let httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function () {
+            let data = JSON.parse(httpRequest.responseText);
+            let template = document.getElementById("habits_template").innerHTML;
             let compiledTemplate = Handlebars.compile(template);
             let text = compiledTemplate({"habits": data});
-
-            $("#habits").html(text);
-        })
+            debugger;
+            document.getElementById("habitsP").innerHTML = text;
+        };
+        httpRequest.open('GET', '/get_habits');
+        httpRequest.send();
     }
 
     function windowConfirmDel(id) {
         if (window.confirm("Do you want to delete this habit?")) {
             let a = '/delete_habit/' + id;
-            let token = $("meta[name='_csrf']").attr("content");
-            $.post(a, {_csrf: token}).done(renderHabits);
+            let token = getCsrf();
+            let httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function () {
+                renderHabits();
+            }
+            let formData = new FormData();
+            formData.append("_csrf", token);
+            httpRequest.open('POST', a);
+            httpRequest.send(formData);
         }
     }
 
-    $(function () {
+    document.addEventListener('DOMContentLoaded', function (event) {
         renderHabits();
-    });
+    })
+
 </script>
 
 <script id="habits_template" type="text/template">

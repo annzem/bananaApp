@@ -1,4 +1,4 @@
-package com.company.model;
+package com.company.bananaapp.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
-//@NamedNativeQuery(name = "com.company.model.repository.EventRepository.findItems",
+//@NamedNativeQuery(name = "com.company.bananaapp.model.repository.EventRepository.findItems",
 //        query = "SELECT p.first_name as first, p.last_name as last FROM Chess_Player p WHERE id = :id",
 //        resultSetMapping = "Mapping.PlayerNameDto")
 @EntityListeners(AuditingEntityListener.class)

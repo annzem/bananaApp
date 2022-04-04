@@ -1,7 +1,4 @@
-package com.company.dto;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+package com.company.bananaapp.dto;
 
 public class ItemsQueryDto {
     public ItemsQueryDto(Long user_id, Long habit_id, int sort, boolean checked, String icon) {

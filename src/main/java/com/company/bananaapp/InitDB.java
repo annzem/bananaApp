@@ -1,11 +1,11 @@
-package com.company;
+package com.company.bananaapp;
 
-import com.company.model.Event;
-import com.company.model.Habit;
-import com.company.model.User;
-import com.company.model.repository.EventRepository;
-import com.company.model.repository.HabitRepository;
-import com.company.model.repository.UserRepository;
+import com.company.bananaapp.model.Event;
+import com.company.bananaapp.model.Habit;
+import com.company.bananaapp.model.User;
+import com.company.bananaapp.model.repository.EventRepository;
+import com.company.bananaapp.model.repository.HabitRepository;
+import com.company.bananaapp.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +57,12 @@ public class InitDB {
             Event event7 = new Event(habit5, 0, true);
             Event event8 = new Event(habit5, 1, true);
             eventRepository.saveAllAndFlush(Arrays.asList(event1,event2, event3, event4, event5, event6, event7, event8));
+        }
+
+        for (int i = 0; i < 10000; i++) {
+            Event event1 = new Event(habit1, 0, true);
+            Event event2 = new Event(habit1, 1, true);
+            eventRepository.saveAllAndFlush(Arrays.asList(event1,event2));
         }
     }
 }

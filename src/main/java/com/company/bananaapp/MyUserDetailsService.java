@@ -1,7 +1,7 @@
-package com.company;
+package com.company.bananaapp;
 
-import com.company.model.User;
-import com.company.model.repository.UserRepository;
+import com.company.bananaapp.model.User;
+import com.company.bananaapp.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,12 +1,12 @@
-package com.company;
+package com.company.bananaapp;
 
-import com.company.dto.*;
-import com.company.model.Event;
-import com.company.model.Habit;
-import com.company.model.User;
-import com.company.model.repository.EventRepository;
-import com.company.model.repository.HabitRepository;
-import com.company.model.repository.UserRepository;
+import com.company.bananaapp.dto.*;
+import com.company.bananaapp.model.Event;
+import com.company.bananaapp.model.Habit;
+import com.company.bananaapp.model.User;
+import com.company.bananaapp.model.repository.EventRepository;
+import com.company.bananaapp.model.repository.HabitRepository;
+import com.company.bananaapp.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
@@ -21,9 +21,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @PreAuthorize("isAuthenticated()")
 @Controller

@@ -1,6 +1,6 @@
-package com.company;
+package com.company.bananaapp;
 
-import com.company.model.User;
+import com.company.bananaapp.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

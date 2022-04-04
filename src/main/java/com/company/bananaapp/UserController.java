@@ -1,8 +1,8 @@
-package com.company;
+package com.company.bananaapp;
 
-import com.company.dto.UserDto;
-import com.company.model.User;
-import com.company.model.repository.UserRepository;
+import com.company.bananaapp.dto.UserDto;
+import com.company.bananaapp.model.User;
+import com.company.bananaapp.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

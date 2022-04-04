@@ -1,14 +1,11 @@
-package com.company.dto;
+package com.company.bananaapp.dto;
 
-import com.company.model.User;
+import com.company.bananaapp.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 public class HabitDto {
 

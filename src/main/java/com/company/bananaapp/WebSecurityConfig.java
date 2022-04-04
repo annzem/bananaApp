@@ -1,4 +1,4 @@
-package com.company;
+package com.company.bananaapp;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

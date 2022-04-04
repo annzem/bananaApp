@@ -1,14 +1,13 @@
-package com.company.model.repository;
+package com.company.bananaapp.model.repository;
 
-import com.company.dto.ItemDbDto;
-import com.company.model.Event;
-import com.company.model.Habit;
+import com.company.bananaapp.dto.ItemDbDto;
+import com.company.bananaapp.model.Event;
+import com.company.bananaapp.model.Habit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
