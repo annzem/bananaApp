@@ -1,6 +1,6 @@
-package com.company.bananaapp;
+package com.github.annzem.banana.webapp.security;
 
-import com.company.bananaapp.model.User;
+import com.github.annzem.banana.webapp.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -49,8 +49,6 @@ public class MyUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    //...
-
 
     public User getUser() {
         return user;

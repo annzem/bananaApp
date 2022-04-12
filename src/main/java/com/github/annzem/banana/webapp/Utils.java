@@ -1,7 +1,8 @@
-package com.company.bananaapp;
+package com.github.annzem.banana.webapp;
 
-import com.company.bananaapp.model.User;
-import com.company.bananaapp.model.repository.UserRepository;
+import com.github.annzem.banana.webapp.model.User;
+import com.github.annzem.banana.webapp.model.repository.UserRepository;
+import com.github.annzem.banana.webapp.security.MyUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

@@ -1,12 +1,12 @@
-package com.company.bananaapp;
+package com.github.annzem.banana.webapp;
 
-import com.company.bananaapp.dto.*;
-import com.company.bananaapp.model.Event;
-import com.company.bananaapp.model.Habit;
-import com.company.bananaapp.model.User;
-import com.company.bananaapp.model.repository.EventRepository;
-import com.company.bananaapp.model.repository.HabitRepository;
-import com.company.bananaapp.model.repository.UserRepository;
+import com.github.annzem.banana.webapp.dto.*;
+import com.github.annzem.banana.webapp.model.Event;
+import com.github.annzem.banana.webapp.model.Habit;
+import com.github.annzem.banana.webapp.model.User;
+import com.github.annzem.banana.webapp.model.repository.EventRepository;
+import com.github.annzem.banana.webapp.model.repository.HabitRepository;
+import com.github.annzem.banana.webapp.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;

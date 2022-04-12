@@ -1,4 +1,4 @@
-package com.company.bananaapp.dto;
+package com.github.annzem.banana.webapp.dto;
 
 import java.time.OffsetDateTime;
 

@@ -1,4 +1,4 @@
-package com.company.bananaapp.dto;
+package com.github.annzem.banana.webapp.dto;
 
 public class ItemsQueryDto {
     public ItemsQueryDto(Long user_id, Long habit_id, int sort, boolean checked, String icon) {

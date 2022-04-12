@@ -1,11 +1,13 @@
-package com.company.bananaapp;
+package com.github.annzem.banana.webapp;
 
-import com.company.bananaapp.model.Event;
-import com.company.bananaapp.model.Habit;
-import com.company.bananaapp.model.User;
-import com.company.bananaapp.model.repository.EventRepository;
-import com.company.bananaapp.model.repository.HabitRepository;
-import com.company.bananaapp.model.repository.UserRepository;
+import com.github.annzem.banana.webapp.model.Event;
+import com.github.annzem.banana.webapp.model.Habit;
+import com.github.annzem.banana.webapp.model.Token;
+import com.github.annzem.banana.webapp.model.User;
+import com.github.annzem.banana.webapp.model.repository.EventRepository;
+import com.github.annzem.banana.webapp.model.repository.HabitRepository;
+import com.github.annzem.banana.webapp.model.repository.TokenRepository;
+import com.github.annzem.banana.webapp.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,11 @@ import java.util.Arrays;
 public class InitDB {
 
     @Autowired
-    public InitDB(UserRepository userRepository, HabitRepository habitRepository, EventRepository eventRepository) {
+    public InitDB(UserRepository userRepository,
+                  HabitRepository habitRepository,
+                  EventRepository eventRepository,
+                  TokenRepository tokenRepository) {
+        tokenRepository.deleteAll();
         eventRepository.deleteAll();
         habitRepository.deleteAll();
         userRepository.deleteAll();
@@ -34,8 +40,16 @@ public class InitDB {
         User vasya = userRepository.findByUsername("Vasya");
         User rosa = userRepository.findByUsername("Rosa");
 
-        Habit habit1 = null, habit2 = null, habit3 = null;
-        Habit habit4 = null; Habit habit5 = null; Habit habit6 = null;
+        if (tokenRepository.findAll().size() == 0) {
+            Token token1 = new Token(arnold);
+            Token token2 = new Token(vasya);
+            Token token3 = new Token(rosa);
+            tokenRepository.saveAndFlush(token1);
+            tokenRepository.saveAndFlush(token2);
+            tokenRepository.saveAndFlush(token3);
+        }
+
+        Habit habit1 = null, habit2 = null, habit3 = null, habit4 = null, habit5 = null, habit6 = null;
 
         if (habitRepository.findAll().size() == 0) {
             habit1 = new Habit("vegetables", arnold, 6, "eggplant");
@@ -44,7 +58,7 @@ public class InitDB {
             habit4 = new Habit("fruits", rosa, 5, "apple");
             habit5 = new Habit("cereals", rosa, 7, "grain");
             habit6 = new Habit("fruits", vasya, 4, "apple");
-            habitRepository.saveAllAndFlush(Arrays.asList(habit1,habit2, habit3, habit4, habit5, habit6));
+            habitRepository.saveAllAndFlush(Arrays.asList(habit1, habit2, habit3, habit4, habit5, habit6));
         }
 
         if (eventRepository.findAll().size() == 0) {
@@ -56,13 +70,13 @@ public class InitDB {
             Event event6 = new Event(habit4, 1, true);
             Event event7 = new Event(habit5, 0, true);
             Event event8 = new Event(habit5, 1, true);
-            eventRepository.saveAllAndFlush(Arrays.asList(event1,event2, event3, event4, event5, event6, event7, event8));
+            eventRepository.saveAllAndFlush(Arrays.asList(event1, event2, event3, event4, event5, event6, event7, event8));
         }
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10; i++) {
             Event event1 = new Event(habit1, 0, true);
             Event event2 = new Event(habit1, 1, true);
-            eventRepository.saveAllAndFlush(Arrays.asList(event1,event2));
+            eventRepository.saveAllAndFlush(Arrays.asList(event1, event2));
         }
     }
 }

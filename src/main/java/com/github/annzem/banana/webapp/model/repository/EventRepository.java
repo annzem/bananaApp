@@ -1,8 +1,8 @@
-package com.company.bananaapp.model.repository;
+package com.github.annzem.banana.webapp.model.repository;
 
-import com.company.bananaapp.dto.ItemDbDto;
-import com.company.bananaapp.model.Event;
-import com.company.bananaapp.model.Habit;
+import com.github.annzem.banana.webapp.dto.ItemDbDto;
+import com.github.annzem.banana.webapp.model.Event;
+import com.github.annzem.banana.webapp.model.Habit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

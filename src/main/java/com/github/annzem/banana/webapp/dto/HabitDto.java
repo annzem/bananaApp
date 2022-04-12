@@ -1,6 +1,6 @@
-package com.company.bananaapp.dto;
+package com.github.annzem.banana.webapp.dto;
 
-import com.company.bananaapp.model.User;
+import com.github.annzem.banana.webapp.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.JoinColumn;

@@ -1,4 +1,4 @@
-package com.company.bananaapp.model;
+package com.github.annzem.banana.webapp.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

@@ -1,4 +1,4 @@
-package com.company.bananaapp.model;
+package com.github.annzem.banana.webapp.model;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
