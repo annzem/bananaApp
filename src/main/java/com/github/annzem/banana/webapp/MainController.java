@@ -1,5 +1,6 @@
 package com.github.annzem.banana.webapp;
 
+import com.github.annzem.banana.protocol.TgMessage;
 import com.github.annzem.banana.webapp.dto.*;
 import com.github.annzem.banana.webapp.model.Event;
 import com.github.annzem.banana.webapp.model.Habit;
@@ -9,9 +10,12 @@ import com.github.annzem.banana.webapp.model.repository.HabitRepository;
 import com.github.annzem.banana.webapp.model.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,15 +35,20 @@ public class MainController {
     private UserRepository userRepository;
     private AuditorAware<User> auditorAware;
     private ModelMapper modelMapper;
+    private JmsTemplate jmsTemplate;
 
     @Autowired
-    public MainController(EventRepository eventRepository, HabitRepository habitRepository, UserRepository userRepository, AuditorAware<User> auditorAware, ModelMapper modelMapper) {
+    public MainController(EventRepository eventRepository, HabitRepository habitRepository, UserRepository userRepository, AuditorAware<User> auditorAware, ModelMapper modelMapper, JmsTemplate jmsTemplate) {
         this.eventRepository = eventRepository;
         this.habitRepository = habitRepository;
         this.userRepository = userRepository;
         this.auditorAware = auditorAware;
         this.modelMapper = modelMapper;
+        this.jmsTemplate = jmsTemplate;
     }
+
+    @Value("${com.company.bananabot.broker.inputqueue}")
+    private String botQueue;
 
     @GetMapping("/")
     public RedirectView main() {
@@ -95,6 +104,14 @@ public class MainController {
         }
 
         return ResponseEntity.ok(items);
+    }
+
+    @GetMapping("/abc")
+    public ResponseEntity abc() {
+        String chatId = auditorAware.getCurrentAuditor().get().getChatId();
+        jmsTemplate.setPubSubDomain(false);
+        jmsTemplate.convertAndSend(botQueue, new TgMessage("qwe", chatId));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/today")
@@ -170,7 +187,7 @@ public class MainController {
 
     public RedirectView userRedactorRes(@ModelAttribute UserDto userDto, Model model) {
         User currentUser = auditorAware.getCurrentAuditor().get();
-        currentUser.setUsername(userDto.getUsername());
+        currentUser.setName(userDto.getUsername());
         userRepository.saveAndFlush(currentUser);
         return new RedirectView("/habits");
     }

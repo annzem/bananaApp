@@ -10,10 +10,12 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUsername(String username);
+    Optional<User> findByEmail(String email);
 
     @Query(value = "SELECT * FROM bananauser " +
             " LEFT JOIN token t on bananauser.id = t.user_id " +
             " WHERE t.token_val = :tokenVal", nativeQuery = true)
     Optional<User> findByToken(String tokenVal);
+
+    Optional<User> findByChatId(String chatId);
 }

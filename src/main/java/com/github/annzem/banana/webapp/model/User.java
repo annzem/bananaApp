@@ -15,10 +15,14 @@ public class User {
 
     private transient static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User(String username, String password) {
+    public User(String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        this.username = username;
+        this.email = email;
         this.password = encodedPassword;
+    }
+
+    public User(String chatId) {
+        this.chatId = chatId;
     }
 
     public User() {
@@ -28,9 +32,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+    @Column(nullable = true, unique = false)
+    private String name;
 
+    @Column(nullable = true, unique = true)
+    private String phone;
+
+    @Column(nullable = true, unique = true)
+    private String email;
+
+    @Column(nullable = true, unique = true)
+    private String chatId;
+
+    @Column(nullable = true)
     private String password;
 
     @CreatedDate
@@ -43,12 +57,12 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String username) {
+        this.name = username;
     }
 
     public String getPassword() {
@@ -62,5 +76,29 @@ public class User {
 
     public Set<Habit> getHabits() {
         return habits;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 }

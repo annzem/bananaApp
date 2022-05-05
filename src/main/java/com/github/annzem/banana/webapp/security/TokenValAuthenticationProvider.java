@@ -4,9 +4,7 @@ import com.github.annzem.banana.webapp.model.Token;
 import com.github.annzem.banana.webapp.model.User;
 import com.github.annzem.banana.webapp.model.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -33,7 +31,7 @@ public class TokenValAuthenticationProvider extends DaoAuthenticationProvider {
 
             User userEntity = tokenEntity.get().getUser();
 
-            String username = userEntity.getUsername();
+            String username = userEntity.getEmail();
             UserDetails user = userDetailsService.loadUserByUsername(username);
             tokenEntity.get().setActive(false);
             tokenRepository.saveAndFlush(tokenEntity.get());

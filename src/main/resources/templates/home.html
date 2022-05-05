@@ -5,10 +5,14 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header">...</div>
-<p class="home" th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!
+<p class="home" th:inline="text">Hello, our dear user!
+<!--    [[${#httpServletRequest.remoteUser}]]-->
     <br> Are you ready to tick some points of your habits or create a new one?
     <br> <br> <input type="button" class = "button-1" onclick="location.href='/today';" value="tick points!"/>
-    <input type="button" class = "button-1" onclick="location.href='/new_habit_page';" value="add new habit!"/> </p>
+    <input type="button" class = "button-1" onclick="location.href='/new_habit_page';" value="add new habit!"/>
+    <br>
+</p>
+
 <img class="home" src="/static/icons/icons.svg" width="200">
 
 </body>

@@ -11,7 +11,8 @@ import com.github.annzem.banana.webapp.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class InitDB {
@@ -28,17 +29,17 @@ public class InitDB {
 
 
         if (userRepository.findAll().size() == 0) {
-            User user1 = new User("Arnold", "pass1");
-            User user2 = new User("Vasya", "pass2");
-            User user3 = new User("Rosa", "pass3");
+            User user1 = new User("arnold@yahoo.com", "pass1");
+            User user2 = new User("vasya@yahoo.com", "pass2");
+            User user3 = new User("rosa@yahoo.com", "pass3");
             userRepository.saveAndFlush(user1);
             userRepository.saveAndFlush(user2);
             userRepository.saveAndFlush(user3);
         }
 
-        User arnold = userRepository.findByUsername("Arnold");
-        User vasya = userRepository.findByUsername("Vasya");
-        User rosa = userRepository.findByUsername("Rosa");
+        User arnold = userRepository.findByEmail("arnold@yahoo.com").get();
+        User vasya = userRepository.findByEmail("vasya@yahoo.com").get();
+        User rosa = userRepository.findByEmail("rosa@yahoo.com").get();
 
         if (tokenRepository.findAll().size() == 0) {
             Token token1 = new Token(arnold);

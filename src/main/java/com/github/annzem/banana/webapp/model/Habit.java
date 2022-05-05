@@ -99,6 +99,10 @@ public class Habit {
 
     public void setIcon(String icon) { this.icon = icon; }
 
+    public User getUser() {
+        return user;
+    }
+
     //    private Duration period; 1 time per period
     // public int countItemsPerDay(long period) {
     //        int secPerDay = 86400;

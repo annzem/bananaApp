@@ -13,6 +13,7 @@ public class Token {
 
     public Token() {
         tokenVal = UUID.randomUUID().toString();
+        active = true;
     }
 
     public Token(User user) {

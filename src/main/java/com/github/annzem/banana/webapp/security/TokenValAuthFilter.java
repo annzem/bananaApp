@@ -1,7 +1,5 @@
 package com.github.annzem.banana.webapp.security;
 
-import com.github.annzem.banana.webapp.model.repository.TokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -12,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TokenValAuthFilter extends AbstractAuthenticationProcessingFilter {
 
-    @Autowired
-    private TokenRepository tokenRepository;
     //todo: only GET method
     public TokenValAuthFilter(AuthenticationManager authManager, String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
